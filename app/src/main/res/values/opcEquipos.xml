@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="opcEquipos">
+        <item>Equipos...</item>
+        <item>Alavés</item>
+        <item>Athletic Club</item>
+        <item>Atlético de Madrid</item>
+        <item>Barcelona</item>
+        <item>Betis</item>
+        <item>Celta</item>
+        <item>Espanyol</item>
+        <item>Getafe</item>
+        <item>Girona</item>
+        <item>Las Palmas</item>
+        <item>Leganés</item>
+        <item>Mallorca</item>
+        <item>Osasuna</item>
+        <item>Real Sociedad</item>
+        <item>Rayo Vallecano</item>
+        <item>Real Madrid</item>
+        <item>Real Valladolid</item>
+        <item>Sevilla</item>
+        <item>Valencia</item>
+        <item>Villareal</item>
+    </string-array>
+</resources>

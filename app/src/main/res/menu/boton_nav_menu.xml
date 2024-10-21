@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/inicio"
+        android:title="Inicio"
+        android:icon="@drawable/baseline_home_24"/>
+    <item
+        android:id="@+id/clasificacion"
+        android:title="Clasificación"
+        android:icon="@drawable/baseline_equalizer_24"/>
+    <item
+        android:id="@+id/equipo"
+        android:title="Equipo"
+        android:icon="@drawable/baseline_groups_24"/>
+    <item
+        android:id="@+id/mercado"
+        android:title="Mercado"
+        android:icon="@drawable/baseline_shop_2_24"/>
+    <item
+        android:id="@+id/noticias"
+        android:title="Noticias"
+        android:icon="@drawable/baseline_newspaper_24"/>
+</menu>

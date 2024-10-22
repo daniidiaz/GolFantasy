@@ -8,5 +8,7 @@ import java.util.ArrayList;
 public class EquipoLaLiga {
     private String nombre;
     private Image escudo;
-    private ArrayList<Partido> partidos;
+    private ArrayList<Partido> partidosJugados;
+    private ArrayList<Partido> partidosPendientes;
+
 }

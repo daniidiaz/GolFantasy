@@ -4,7 +4,8 @@ public class Jugador {
     private String nombre;
     private int puntuacion;
     private int precio;
+    private DisponibilidadJugador disponibilidad;
+    private Posicion posicion;
 
-    //Se refiere a si esta lesionado, no o es duda.
-    private boolean estado = true;
+
 }

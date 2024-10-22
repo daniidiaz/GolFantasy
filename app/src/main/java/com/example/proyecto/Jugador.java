@@ -5,4 +5,6 @@ public class Jugador {
     private int puntuacion;
     private int precio;
 
+    //Se refiere a si esta lesionado, no o es duda.
+    private boolean estado = true;
 }

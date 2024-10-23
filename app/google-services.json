@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "513798158983",
+    "project_id": "golfantasy-9de8b",
+    "storage_bucket": "golfantasy-9de8b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:513798158983:android:f8361a541568d5cbc41622",
+        "android_client_info": {
+          "package_name": "com.example.proyecto"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0y6ixnT7DQxHze2dZebYTJ5-zW8ZwqYI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

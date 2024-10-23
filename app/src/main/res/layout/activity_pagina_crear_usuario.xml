@@ -149,6 +149,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
         android:layout_weight="1"
-        android:backgroundTint="@color/rojo"
-        android:text="Crear la cuenta" />
+        android:backgroundTint="@color/green"
+        android:text="Crear la cuenta"
+        style="@style/Button.Modern.Filled"/>
 </LinearLayout>

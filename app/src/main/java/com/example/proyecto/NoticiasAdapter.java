@@ -24,6 +24,7 @@ public class NoticiasAdapter extends RecyclerView.Adapter<NoticiasAdapter.Notici
         this.noticias = noticias;
     }
 
+    //Usa el layout item_noticia.xml
     @NonNull
     @Override
     public NoticiaViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -38,22 +39,23 @@ public class NoticiasAdapter extends RecyclerView.Adapter<NoticiasAdapter.Notici
 
         holder.tituloTextView.setText(noticia.getTitulo());
         holder.descripcionTextView.setText(noticia.getDescripcion());
-        holder.contenidoTextView.setText(noticia.getContenido()); // Asegúrate de tener este método en tu modelo
-        holder.autorTextView.setText(noticia.getAutor()); // Asegúrate de tener este método en tu modelo
+        holder.contenidoTextView.setText(noticia.getContenido());
+        holder.autorTextView.setText(noticia.getAutor());
         holder.urlTextView.setText(noticia.getUrl());
 
         // Cargar la imagen usando Glide
         Glide.with(holder.imagenView.getContext())
-                .load(noticia.getUrlDeImagen()) // Asegúrate de que este método esté presente en tu modelo
+                .load(noticia.getUrlDeImagen())
                 .into(holder.imagenView);
 
-        // Configurar el TextView de la URL y su clic
+        // Configura el TextView de la URL y su clic
         holder.urlTextView.setOnClickListener(v -> {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(noticia.getUrl()));
             v.getContext().startActivity(browserIntent);
         });
     }
 
+    //método que muestra el numero de noticias que se van a mostrar
     @Override
     public int getItemCount() {
         return noticias.size();

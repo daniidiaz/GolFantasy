@@ -1,5 +1,7 @@
 package com.example.proyecto;
 
+//Clase para representar los Articulos o noticias de la API
+
 public class Article {
     private String title;           // Título de la noticia
     private String description;     // Descripción de la noticia

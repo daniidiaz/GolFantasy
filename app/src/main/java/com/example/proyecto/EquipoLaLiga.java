@@ -6,6 +6,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class EquipoLaLiga {
+    private int idEquipo;
     private String nombre;
     private Image escudo;
     private ArrayList<Partido> partidosJugados;

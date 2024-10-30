@@ -6,6 +6,7 @@ package com.example.proyecto;
 import java.util.ArrayList;
 
 public class Jugador {
+    private int idJugador;
     private String nombre;
     private int puntuacion;
     private int precio;

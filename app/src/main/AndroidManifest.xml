@@ -15,6 +15,9 @@
         android:theme="@style/Theme.Proyecto"
         tools:targetApi="31">
         <activity
+            android:name=".CreacionDeLigaFantasy"
+            android:exported="false" />
+        <activity
             android:name=".PantallaJuegoPrincipal"
             android:exported="false" />
         <activity

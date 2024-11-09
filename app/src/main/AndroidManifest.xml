@@ -15,6 +15,9 @@
         android:theme="@style/Theme.Proyecto"
         tools:targetApi="31">
         <activity
+            android:name=".UnirseLiga"
+            android:exported="false" />
+        <activity
             android:name=".CreacionDeLigaFantasy"
             android:exported="false" />
         <activity

@@ -1,5 +1,8 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Proyecto</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="tvIDLiga" translatable="false">Introduce el ID de la liga a la que deseas unirte.</string>
+    <string name="etIDLiga" translatable="false">ID de liga</string>
+    <string name="btUnirseLiga" translatable="false">Unirse</string>
 </resources>

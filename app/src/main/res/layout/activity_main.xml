@@ -14,86 +14,96 @@
         android:id="@+id/tvTitulo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
         android:layout_weight="1"
-        android:backgroundTint="@color/black"
+        android:backgroundTint="@color/negro"
         android:gravity="center"
         android:text="Inicia sesión para jugar"
-        android:textColor="@color/white"
-        android:textSize="24sp" />
+        android:textColor="@color/blanco"
+        android:textSize="24sp"/>
 
-    <TextView
-        android:id="@+id/tvUsuario"
+    <!-- Grupo Usuario -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="0dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="50dp"
         android:layout_weight="1"
-        android:gravity="bottom|left"
-        android:text="Usuario:"
-        android:textColor="@color/white"
-        android:textSize="16sp" />
+        android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/etUsuario"
+        <TextView
+            android:id="@+id/tvUsuario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="bottom|left"
+            android:text="Usuario:"
+            android:textColor="@color/blanco"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/etUsuario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Usuario..."
+            android:inputType="text"
+            android:textColor="@color/blanco"
+            android:textColorHint="#615F5F"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <!-- Grupo Contraseña -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="0dp"
-        android:layout_weight="1"
-        android:ems="10"
-        android:gravity="bottom|left"
-        android:hint="Usuario..."
-        android:inputType="text"
-        android:textColor="@color/white"
-        android:textColorHint="#615F5F"
-        android:textSize="16sp" />
+        android:orientation="vertical"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_weight="1">
 
-    <TextView
-        android:id="@+id/tvContraseña"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="0dp"
-        android:layout_weight="1"
-        android:gravity="bottom|left"
-        android:text="Contraseña:"
-        android:textColor="@color/white"
-        android:textSize="16sp" />
+        <TextView
+            android:id="@+id/tvContraseña"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="bottom|left"
+            android:text="Contraseña:"
+            android:textColor="@color/blanco"
+            android:textSize="16sp" />
 
-    <EditText
-        android:id="@+id/etContraseña"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="0dp"
-        android:layout_weight="1"
-        android:ems="10"
-        android:gravity="bottom|left"
-        android:hint="Contraseña..."
-        android:inputType="textPassword"
-        android:textColor="@color/white"
-        android:textColorHint="#615F5F"
-        android:textSize="16sp" />
+        <EditText
+            android:id="@+id/etContraseña"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Contraseña..."
+            android:inputType="textPassword"
+            android:textColor="@color/blanco"
+            android:textColorHint="#615F5F"
+            android:textSize="16sp" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/botonEntrar"
-        android:layout_width="200dp"
-        android:layout_height="20dp"
+        android:layout_width="150sp"
+        android:layout_height="8dp"
         android:layout_gravity="center"
+        android:layout_marginTop="80dp"
         android:layout_weight="1"
-        android:backgroundTint="@color/rojo"
+        android:backgroundTint="@color/verde_sec"
         android:text="ENTRAR"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        app:cornerRadius="8dp" />
 
     <TextView
         android:id="@+id/linkRegistrar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:clickable="true"
         android:gravity="center"
-        android:text="Registate si no tienes cuenta clicando aquí"
-        android:textColor="@color/azul"
-        android:textSize="14sp"
-        android:clickable="true"/>
+        android:text="Regístrate si no tienes cuenta clicando aquí"
+        android:textColor="@android:color/holo_blue_dark"
+        android:textSize="14sp" />
 
 </LinearLayout>

@@ -102,7 +102,7 @@ public class PaginaCrearUsuario extends AppCompatActivity implements View.OnClic
             // Mover el cursor al final del texto
             editTextContrasenia.setSelection(editTextContrasenia.getText().length());
         } else if (view.getId()==R.id.btnCrearCuenta) {
-            Intent i=new Intent(this, PantallaJuegoPrincipal.class);
+            Intent i=new Intent(this, ElegirCrearOUnirseLiga.class);
             startActivity(i);
         }
     }

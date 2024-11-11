@@ -8,148 +8,186 @@
     android:background="@color/negro"
     android:orientation="vertical"
     android:padding="16dp"
+    android:weightSum="7"
     tools:context=".PaginaCrearUsuario">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/rojo"
+        android:layout_height="30dp"
+        android:layout_weight="1"
+        android:background="@color/gris_verd"
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         android:titleTextColor="@color/blanco"
         app:title="Crear Cuenta" />
 
-    <TextView
-        android:id="@+id/tvCreaUsuario"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
-        android:layout_weight="1"
-        android:text="Introduce tu Nombre de Usuario:"
-        android:textColor="@color/blanco"
-        android:textSize="18sp" />
-
-    <EditText
-        android:id="@+id/etCrearNombre"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
-        android:layout_weight="1"
-        android:hint="Usuario..."
-        android:inputType="text"
-        android:textColor="@color/blanco"
-        android:textColorHint="@color/gris"
-        android:textSize="14sp" />
-
-    <TextView
-        android:id="@+id/tvCrearContrasenia"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
-        android:layout_weight="1"
-        android:text="Introduce una contraseña:"
-        android:textColor="@color/blanco"
-        android:textSize="18sp" />
-
+    <!-- Campo de Nombre de Usuario -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:layout_marginBottom="8dp"
-        android:layout_weight="1"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="60dp"
+        android:layout_marginLeft="20dp">
+
+        <TextView
+            android:id="@+id/tvCreaUsuario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Introduce tu Nombre de Usuario:"
+            android:textColor="@color/blanco"
+            android:textSize="18sp" />
 
         <EditText
-            android:id="@+id/editTextText6"
-            android:layout_width="0dp"
+            android:id="@+id/etCrearNombre"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="Contraseña..."
-            android:inputType="textPassword"
+            android:layout_marginBottom="4dp"
+            android:hint="Usuario..."
+            android:inputType="text"
             android:textColor="@color/blanco"
-            android:textColorHint="@color/gris" />
-
-        <ImageButton
-            android:id="@+id/btnVerContraseña"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:adjustViewBounds="true"
-            android:background="@color/blanco"
-            android:contentDescription="Mostrar/Ocultar Contraseña"
-            android:src="@drawable/baseline_visibility_off_24" />
+            android:textColorHint="@color/gris"
+            android:textSize="14sp" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/tvCrearEmail"
+    <!-- Campo de Contraseña -->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:layout_marginBottom="8dp"
-        android:layout_weight="1"
-        android:text="Introduce un email:"
-        android:textColor="@color/blanco"
-        android:textSize="18sp" />
+        android:layout_marginRight="60dp"
+        android:layout_marginLeft="20dp">
 
-    <EditText
-        android:id="@+id/editTextText5"
+        <TextView
+            android:id="@+id/tvCrearContrasenia"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Introduce una contraseña:"
+            android:textColor="@color/blanco"
+            android:textSize="18sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="4dp">
+
+            <EditText
+                android:id="@+id/editTextText6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Contraseña..."
+                android:inputType="textPassword"
+                android:textColor="@color/blanco"
+                android:textColorHint="@color/gris" />
+
+            <ImageButton
+                android:id="@+id/btnVerContraseña"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:adjustViewBounds="true"
+                android:background="@color/blanco"
+                android:contentDescription="Mostrar/Ocultar Contraseña"
+                android:src="@drawable/baseline_visibility_off_24" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Campo de Email -->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:layout_marginBottom="8dp"
-        android:layout_weight="1"
-        android:hint="Email..."
-        android:inputType="text|textEmailAddress"
-        android:textColor="@color/blanco"
-        android:textColorHint="@color/gris"
-        android:textSize="14sp" />
+        android:layout_marginRight="60dp"
+        android:layout_marginLeft="20dp">
 
-    <TextView
-        android:id="@+id/tvCrearTlf"
+        <TextView
+            android:id="@+id/tvCrearEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Introduce un email:"
+            android:textColor="@color/blanco"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/editTextText5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:hint="Email..."
+            android:inputType="text|textEmailAddress"
+            android:textColor="@color/blanco"
+            android:textColorHint="@color/gris"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <!-- Campo de Teléfono -->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:layout_marginBottom="8dp"
-        android:layout_weight="1"
-        android:text="Introduce tu teléfono:"
-        android:textColor="@color/blanco"
-        android:textSize="18sp" />
+        android:layout_marginRight="60dp"
+        android:layout_marginLeft="20dp">
 
-    <EditText
-        android:id="@+id/editTextText4"
+        <TextView
+            android:id="@+id/tvCrearTlf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Introduce tu teléfono:"
+            android:textColor="@color/blanco"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/editTextText4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:hint="Teléfono"
+            android:inputType="phone"
+            android:textColor="@color/blanco"
+            android:textColorHint="@color/gris"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <!-- Campo de Equipo Favorito -->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:layout_marginBottom="8dp"
-        android:layout_weight="1"
-        android:hint="Teléfono"
-        android:inputType="phone"
-        android:textColor="@color/blanco"
-        android:textColorHint="@color/gris"
-        android:textSize="14sp" />
+        android:layout_marginRight="60dp"
+        android:layout_marginLeft="20dp">
 
-    <TextView
-        android:id="@+id/tvCrearEquipo"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
-        android:layout_weight="1"
-        android:text="¿Cuál es tu equipo favorito?"
-        android:textColor="@color/blanco"
-        android:textSize="18sp" />
+        <TextView
+            android:id="@+id/tvCrearEquipo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="¿Cuál es tu equipo favorito?"
+            android:textColor="@color/blanco"
+            android:textSize="18sp" />
 
-    <Spinner
-        android:id="@+id/spinnerEquipos"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
-        android:layout_weight="1"
-        android:spinnerMode="dropdown" />
+        <Spinner
+            android:id="@+id/spinnerEquipos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:spinnerMode="dropdown" />
+    </LinearLayout>
 
+    <!-- Botón Crear Cuenta -->
     <Button
         android:id="@+id/btnCrearCuenta"
+        style="@style/Button.Modern.Filled"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
         android:backgroundTint="@color/green"
-        android:text="Crear la cuenta"
-        style="@style/Button.Modern.Filled"/>
+        android:text="Crear la cuenta" />
 </LinearLayout>

@@ -11,14 +11,15 @@
         android:layout_height="wrap_content"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:paddingBottom="2dp"/>
+        android:paddingBottom="2dp"
+        android:textColor="@color/blanco"/>
 
     <TextView
         android:id="@+id/descripcion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="14sp"
-        android:textColor="@android:color/darker_gray"
+        android:textColor="@color/gris"
         android:paddingBottom="4dp" />
 
     <ImageView

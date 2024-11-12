@@ -57,9 +57,9 @@ public class PaginaCrearUsuario extends AppCompatActivity implements View.OnClic
         spinnerEquipos = findViewById(R.id.spinnerEquipos);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.opcEquipos, android.R.layout.simple_spinner_item);
+                R.array.opcEquipos, R.layout.spinner_item);
 
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(R.layout.spinner_item);
 
         spinnerEquipos.setAdapter(adapter);
 

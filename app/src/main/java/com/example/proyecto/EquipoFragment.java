@@ -56,8 +56,8 @@ public class EquipoFragment extends Fragment {
         lineaDelanteros = view.findViewById(R.id.linea_delanteros);
         portero = view.findViewById(R.id.portero); // Portero fijo
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(requireActivity(),R.array.formaciones, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(requireActivity(),R.array.formaciones, R.layout.spinner_item);
+        adapter.setDropDownViewResource(R.layout.spinner_item);
         formacionSpinner.setAdapter(adapter);
 
         formacionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -72,6 +72,7 @@ public class EquipoFragment extends Fragment {
                 // No hacer nada si no se selecciona nada
             }
         });
+
 
         return view;
     }

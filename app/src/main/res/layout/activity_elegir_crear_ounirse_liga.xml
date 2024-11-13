@@ -10,7 +10,7 @@
 
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+        android:id="@+id/toolbarInicio"
         android:layout_width="match_parent"
         android:layout_height="56dp"
     android:background="@color/gris_verd"
@@ -40,14 +40,14 @@
     android:layout_margin="20dp">
 
 
-    <Button
-        android:id="@+id/btnCrearNuevaLiga"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
-    android:backgroundTint="@color/verde_sec"
-    android:text="Crear Nueva Liga"
-    app:cornerRadius="8dp" />
+        <Button
+            android:id="@+id/btnCrearNuevaLiga"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:backgroundTint="@color/verde_sec"
+            android:text="Crear Nueva Liga"
+            app:cornerRadius="8dp" />
 
 
     <Button

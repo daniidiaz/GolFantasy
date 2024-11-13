@@ -2,7 +2,6 @@ package com.example.proyecto;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.InputType;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -33,7 +32,7 @@ public class ElegirCrearOUnirseLiga extends AppCompatActivity implements View.On
 
 
         // Configurar el toolbar
-        toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbarInicio);
         setSupportActionBar(toolbar);
         // Opcional: Habilitar botón de "Atrás"
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

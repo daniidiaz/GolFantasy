@@ -19,13 +19,12 @@
         <item name="android:padding">16dp</item>
         <item name="android:textAllCaps">false</item>
         <item name="cornerRadius">8dp</item>
-        <item name="android:textColor">@color/blanco</item>
-        <item name="backgroundTint">@color/green</item>
+        <item name="android:elevation">2dp</item>
+
     </style>
 
     <!-- Estilo para botones con esquinas redondeadas -->
     <style name="Button.Modern.Rounded" parent="Button.Modern">
-        <item name="cornerRadius">24dp</item>
         <item name="android:textAllCaps">true</item>
         <item name="strokeColor">@color/verde_sec</item>
         <item name="android:textColor">@color/blanco</item>
@@ -45,5 +44,11 @@
         <item name="cornerRadius">8dp</item>
         <item name="strokeColor">@color/verde_sec</item>
         <item name="android:textColor">@color/blanco</item>
+    </style>
+    <style name="RoundedButtonStyle">
+        <item name="android:background">@drawable/rounded_button</item> <!-- Fondo redondeado -->
+        <item name="android:textColor">@android:color/white</item> <!-- Texto en color blanco -->
+        <item name="android:padding">8dp</item> <!-- Padding opcional -->
+        <item name="android:textSize">16sp</item> <!-- Tamaño de texto opcional -->
     </style>
 </resources>

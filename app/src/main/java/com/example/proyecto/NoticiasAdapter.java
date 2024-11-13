@@ -18,7 +18,7 @@ import java.util.List;
 
 public class NoticiasAdapter extends RecyclerView.Adapter<NoticiasAdapter.NoticiaViewHolder>  {
 
-    private List<Noticia> noticias;
+    private final List<Noticia> noticias;
 
     public NoticiasAdapter(List<Noticia> noticias) {
         this.noticias = noticias;

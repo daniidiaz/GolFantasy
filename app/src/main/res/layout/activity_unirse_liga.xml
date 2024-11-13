@@ -7,60 +7,59 @@
     android:layout_height="match_parent"
     android:background="@color/negro"
     android:orientation="vertical"
-    android:weightSum="7"
     tools:context=".UnirseLiga">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar2"
+        android:id="@+id/tbUnirseLiga"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_height="56dp"
         android:background="@color/verde_sec"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme" />
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1" />
-
+    <!-- TextView Centrado -->
     <TextView
         android:id="@+id/tvUnirseLiga"
         android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
         android:text="@string/tvIDLiga"
         android:textColor="@color/blanco"
         android:textSize="24sp" />
 
+    <!-- EditText Centrado -->
     <EditText
         android:id="@+id/etIDLiga"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.5"
+        android:layout_margin="16dp"
+        android:background="@color/gris_verd"
+        android:backgroundTint="@color/gris_verd"
         android:ems="10"
+        android:gravity="center"
         android:hint="@string/etIDLiga"
         android:inputType="text"
-        android:textColorHint="@color/gris_verd" />
+        android:textAlignment="viewStart"
+        android:textAllCaps="false"
+        android:textColorHint="@color/dark_surface"
+        android:textStyle="italic"
+        android:typeface="normal" />
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1" />
-
+    <!-- Botón Centrado -->
     <Button
-        android:id="@+id/btUnirseLiga"
-        android:layout_width="175dp"
+        android:id="@+id/btIDLiga"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_weight="0.5"
+        android:background="@color/verde_sec"
         android:backgroundTint="@color/verde_sec"
-        android:gravity="center"
+        android:padding="8dp"
         android:text="@string/btUnirseLiga"
-        android:textSize="20sp" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:layout_marginBottom="16dp" />
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1" />
 </LinearLayout>

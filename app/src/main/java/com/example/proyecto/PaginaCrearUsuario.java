@@ -48,7 +48,7 @@ public class PaginaCrearUsuario extends AppCompatActivity implements View.OnClic
         btnCrearCuenta.setOnClickListener(this);
 
         // Configurar el toolbar
-        toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbarInicio);
         setSupportActionBar(toolbar);
 
         // Opcional: Habilitar botón de "Atrás"

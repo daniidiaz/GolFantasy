@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LeagueAdapter extends RecyclerView.Adapter<LeagueAdapter.LeagueViewHolder>{
-    private List<LigaFicticia> listaLigasJuego = new ArrayList<>();
+    private final List<LigaFicticia> listaLigasJuego = new ArrayList<>();
 
     // Método para añadir una liga
     public void addLeague(LigaFicticia liga) {

@@ -14,12 +14,18 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private EditText etUsuario;
     private EditText etContrasenia;
     private Button boton;
     private TextView linkRegistrar;
+
+    private FirebaseFirestore db;  // Instancia de Firestore
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,9 +38,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return insets;
         });
 
+        // Inicializar Firestore
+        db = FirebaseFirestore.getInstance();
+
+        // Referencias a los campos de la interfaz
         etUsuario = findViewById(R.id.etUsuario);
         etContrasenia = findViewById(R.id.etContraseña);
-        boton=findViewById(R.id.botonEntrar);
+        boton = findViewById(R.id.botonEntrar);
         boton.setOnClickListener(this);
         linkRegistrar = findViewById(R.id.linkRegistrar);
         linkRegistrar.setOnClickListener(this);
@@ -42,22 +52,53 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
+        if (view.getId() == R.id.botonEntrar) {
+            String usuario = etUsuario.getText().toString().trim();
+            String contrasenia = etContrasenia.getText().toString().trim();
 
-        if (view.getId() == R.id.botonEntrar){
-            String usuario = etUsuario.getText().toString();
-            String contrasenia = etContrasenia.getText().toString();
-
-            if (usuario.isEmpty() || contrasenia.isEmpty()){
+            if (usuario.isEmpty() || contrasenia.isEmpty()) {
                 Toast.makeText(this, "Campos vacíos, rellene todos los campos", Toast.LENGTH_SHORT).show();
-            } else{
-                Intent intent=new Intent(this, PantallaJuegoPrincipal.class);
-                startActivity(intent);
-
+            } else {
+                // Verificar si el usuario y contraseña existen en la base de datos
+                verificarUsuarioYContraseña(usuario, contrasenia);
             }
         } else if (view.getId() == R.id.linkRegistrar) {
-            Intent intent=new Intent(this, PaginaCrearUsuario.class);
+            Intent intent = new Intent(this, PaginaCrearUsuario.class);
             startActivity(intent);
         }
+    }
 
+    private void verificarUsuarioYContraseña(String usuario, String contrasenia) {
+        // Realizar la consulta para buscar el usuario en Firestore
+        db.collection("usuarios")  // Asegúrate de que el nombre de la colección sea "usuarios"
+                .whereEqualTo("nombreUsuario", usuario)  // Buscar por nombre de usuario
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        QuerySnapshot querySnapshot = task.getResult();
+
+                        if (querySnapshot.isEmpty()) {
+                            // Si no hay coincidencias con el nombre de usuario
+                            Toast.makeText(MainActivity.this, "No existe la cuenta", Toast.LENGTH_SHORT).show();
+                        } else {
+                            // Si se encuentra un documento, verificamos la contraseña
+                            for (QueryDocumentSnapshot document : querySnapshot) {
+                                String contraseniaGuardada = document.getString("contrasenia");
+
+                                if (contrasenia.equals(contraseniaGuardada)) {
+                                    // Si la contraseña coincide, navegar a la siguiente pantalla
+                                    Intent intent = new Intent(MainActivity.this, PantallaJuegoPrincipal.class);
+                                    startActivity(intent);
+                                } else {
+                                    // Si la contraseña no coincide
+                                    Toast.makeText(MainActivity.this, "La contraseña no es correcta", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }
+                    } else {
+                        // Si ocurre algún error en la consulta
+                        Toast.makeText(MainActivity.this, "Error al acceder a la base de datos", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }

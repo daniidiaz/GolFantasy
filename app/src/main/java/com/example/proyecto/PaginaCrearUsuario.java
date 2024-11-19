@@ -21,7 +21,15 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class PaginaCrearUsuario extends AppCompatActivity implements View.OnClickListener {
+
+    // Define una referencia a la base de datos
+    private FirebaseFirestore db;
 
     private Spinner spinnerEquipos;
     private EditText editTextContrasenia;
@@ -40,6 +48,8 @@ public class PaginaCrearUsuario extends AppCompatActivity implements View.OnClic
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        db = FirebaseFirestore.getInstance();// Inicializa Firestore
 
         editTextContrasenia = findViewById(R.id.editTextText6);
         btnVerContraseña = findViewById(R.id.btnVerContraseña);
@@ -85,6 +95,58 @@ public class PaginaCrearUsuario extends AppCompatActivity implements View.OnClic
 
         }
 
+    private void guardarDatosEnFirebase() {
+        // Obtener los datos de los campos
+        EditText etNombreUsuario = findViewById(R.id.etCrearNombre);
+        EditText etEmail = findViewById(R.id.editTextText5);
+        EditText etTelefono = findViewById(R.id.editTextText4);
+        EditText etContrasenia = findViewById(R.id.editTextText6);
+        Spinner spEquipoFavorito = findViewById(R.id.spinnerEquipos);
+
+        String email = etEmail.getText().toString().trim();
+        String telefono = etTelefono.getText().toString().trim();
+
+        // Verificar si el email o el teléfono ya existen
+        db.collection("usuarios")
+                .whereEqualTo("email", email)
+                .get()
+                .addOnCompleteListener(taskEmail -> {
+                    if (taskEmail.isSuccessful() && !taskEmail.getResult().isEmpty()) {
+                        Toast.makeText(this, "El email ya existe", Toast.LENGTH_SHORT).show();
+                    } else {
+                        db.collection("usuarios")
+                                .whereEqualTo("telefono", telefono)
+                                .get()
+                                .addOnCompleteListener(taskTelefono -> {
+                                    if (taskTelefono.isSuccessful() && !taskTelefono.getResult().isEmpty()) {
+                                        Toast.makeText(this, "El teléfono ya existe", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        // Convertir datos en un Map para guardarlos en Firebase
+                                        Map<String, Object> usuario = new HashMap<>();
+                                        usuario.put("nombreUsuario", etNombreUsuario.getText().toString().trim());
+                                        usuario.put("email", email);
+                                        usuario.put("telefono", telefono);
+                                        usuario.put("contrasenia", etContrasenia.getText().toString().trim());
+                                        usuario.put("equipoFavorito", spEquipoFavorito.getSelectedItem().toString());
+
+                                        // Añadir datos a Firebase
+                                        db.collection("usuarios").add(usuario)
+                                                .addOnSuccessListener(documentReference -> {
+                                                    Toast.makeText(PaginaCrearUsuario.this, "Cuenta creada con éxito!", Toast.LENGTH_SHORT).show();
+                                                    // Navegar a la siguiente pantalla solo si se crea la cuenta
+                                                    Intent i = new Intent(PaginaCrearUsuario.this, ElegirCrearOUnirseLiga.class);
+                                                    startActivity(i);
+                                                })
+                                                .addOnFailureListener(e ->
+                                                        Toast.makeText(PaginaCrearUsuario.this, "Error al crear cuenta: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                                    }
+                                });
+                    }
+                });
+    }
+
+
+
     @Override
     public void onClick(View view) {
 
@@ -102,8 +164,7 @@ public class PaginaCrearUsuario extends AppCompatActivity implements View.OnClic
             // Mover el cursor al final del texto
             editTextContrasenia.setSelection(editTextContrasenia.getText().length());
         } else if (view.getId()==R.id.btnCrearCuenta) {
-            Intent i=new Intent(this, ElegirCrearOUnirseLiga.class);
-            startActivity(i);
+            guardarDatosEnFirebase();
         }
     }
 

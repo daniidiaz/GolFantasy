@@ -92,7 +92,7 @@ public class NoticiasFragment extends Fragment {
     }
 
     private void obtenerNoticiasDeAPI() {
-        ApiService apiService = ApiClient.getClient().create(ApiService.class);
+        NewsApiService apiService = NewsApiClient.getClient().create(NewsApiService.class);
 
         Call<ApiResponse> call = apiService.obtenerNoticias("LALIGA FANTASY", "72693b8e807142edb14ba3471e6d8a2b", "es");
         call.enqueue(new Callback<ApiResponse>() {

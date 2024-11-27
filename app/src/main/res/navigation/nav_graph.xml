@@ -1,0 +1,23 @@
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/equipoFragment">
+
+    <fragment
+        android:id="@+id/equipoFragment"
+        android:name="com.example.proyecto.EquipoFragment"
+        android:label="Equipo Fragmento"
+        tools:layout="@layout/fragment_equipo">
+
+        <action
+            android:id="@+id/action_equipo_to_otro"
+            app:destination="@id/otroFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/otroFragment"
+        android:name=""
+        android:label="Otro Fragmento"
+        tools:layout="@layout/fragment_otro" />
+</navigation>

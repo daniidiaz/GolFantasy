@@ -34,8 +34,7 @@
             android:id="@+id/portero"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:src="@drawable/portero" />
+            android:layout_gravity="center" />
 
         <LinearLayout
             android:id="@+id/linea_defensas"

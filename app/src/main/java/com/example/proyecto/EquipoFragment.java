@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +16,25 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
+import com.bumptech.glide.Glide;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Response;
+
 public class EquipoFragment extends Fragment {
+
+    private FirebaseFirestore db;
+    private List<Jugador> jugadoresDefensas = new ArrayList<>();
+    private List<Jugador> jugadoresMediocentros = new ArrayList<>();
+    private List<Jugador> jugadoresDelanteros = new ArrayList<>();
+
+    private List<Jugador> jugadoresLiga;
 
     private LinearLayout lineaDefensas, lineaMediocentros, lineaDelanteros;
     private ImageView portero;
@@ -41,7 +61,50 @@ public class EquipoFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
+        db = FirebaseFirestore.getInstance();
+        obtenerJugadoresDeFirestore();
+    }
+
+    private void obtenerJugadoresDeFirestore() {
+        db.collection("formacion") // nombre de colección en Firestore
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            // Mapea el documento a un objeto Jugador
+                            Jugador jugador = document.toObject(Jugador.class);
+
+                            // Clasifica a los jugadores según su posición
+                            agregarJugadorPorPosicion(jugador);
+                        }
+                        // Actualiza la vista con los jugadores obtenidos
+                        cambiarFormacion("4-3-3"); // Cambiar por la formación inicial deseada
+                    } else {
+                        Log.e("Firestore Error", "Error obteniendo documentos: ", task.getException());
+                    }
+                });
+    }
+
+    private void agregarJugadorPorPosicion(Jugador jugador) {
+        switch (jugador.getPosicion().name().toLowerCase()) {
+            case "portero":
+                Glide.with(this)
+                        .load(jugador.getImagenUrl())
+                        .placeholder(R.drawable.jugador) // Imagen por defecto
+                        .into(portero);
+                break;
+            case "defensa":
+                jugadoresDefensas.add(jugador);
+                break;
+            case "mediocentro":
+                jugadoresMediocentros.add(jugador);
+                break;
+            case "delantero":
+                jugadoresDelanteros.add(jugador);
+                break;
+            default:
+                Log.e("Posición inválida", "Posición no reconocida: " + jugador.getPosicion());
+                break;
         }
     }
 
@@ -84,64 +147,75 @@ public class EquipoFragment extends Fragment {
 
         // Cambiar la disposición según la formación seleccionada
         if (formacion.equals("3-3-4")) {
-            colocarJugadores(3, lineaDefensas);
-            colocarJugadores(3, lineaMediocentros);
-            colocarJugadores(4, lineaDelanteros);
+            colocarJugadores(3, jugadoresDefensas, lineaDefensas);
+            colocarJugadores(3, jugadoresMediocentros, lineaMediocentros);
+            colocarJugadores(4, jugadoresDelanteros, lineaDelanteros);
         } else if (formacion.equals("3-4-3")) {
-            colocarJugadores(3, lineaDefensas);
-            colocarJugadores(4, lineaMediocentros);
-            colocarJugadores(3, lineaDelanteros);
+            colocarJugadores(3, jugadoresDefensas, lineaDefensas);
+            colocarJugadores(4, jugadoresMediocentros, lineaMediocentros);
+            colocarJugadores(3, jugadoresDelanteros, lineaDelanteros);
         } else if (formacion.equals("3-5-2")) {
-            colocarJugadores(3, lineaDefensas);
-            colocarJugadores(5, lineaMediocentros);
-            colocarJugadores(2, lineaDelanteros);
+            colocarJugadores(3, jugadoresDefensas, lineaDefensas);
+            colocarJugadores(5, jugadoresMediocentros, lineaMediocentros);
+            colocarJugadores(2, jugadoresDelanteros, lineaDelanteros);
         } else if (formacion.equals("3-6-1")) {
-            colocarJugadores(3, lineaDefensas);
-            colocarJugadores(6, lineaMediocentros);
-            colocarJugadores(1, lineaDelanteros);
+            colocarJugadores(3, jugadoresDefensas, lineaDefensas);
+            colocarJugadores(6, jugadoresMediocentros, lineaMediocentros);
+            colocarJugadores(1, jugadoresDelanteros, lineaDelanteros);
         } else if (formacion.equals("4-2-4")) {
-            colocarJugadores(4, lineaDefensas);
-            colocarJugadores(2, lineaMediocentros);
-            colocarJugadores(4, lineaDelanteros);
+            colocarJugadores(4, jugadoresDefensas, lineaDefensas);
+            colocarJugadores(2, jugadoresMediocentros, lineaMediocentros);
+            colocarJugadores(4, jugadoresDelanteros, lineaDelanteros);
         } else if (formacion.equals("4-3-3")) {
-            colocarJugadores(4, lineaDefensas);
-            colocarJugadores(3, lineaMediocentros);
-            colocarJugadores(3, lineaDelanteros);
+            colocarJugadores(4, jugadoresDefensas, lineaDefensas);
+            colocarJugadores(3, jugadoresMediocentros, lineaMediocentros);
+            colocarJugadores(3, jugadoresDelanteros, lineaDelanteros);
         } else if (formacion.equals("4-4-2")) {
-            colocarJugadores(4, lineaDefensas);
-            colocarJugadores(4, lineaMediocentros);
-            colocarJugadores(2, lineaDelanteros);
+            colocarJugadores(4, jugadoresDefensas, lineaDefensas);
+            colocarJugadores(4, jugadoresMediocentros, lineaMediocentros);
+            colocarJugadores(2, jugadoresDelanteros, lineaDelanteros);
         } else if (formacion.equals("4-5-1")) {
-            colocarJugadores(4, lineaDefensas);
-            colocarJugadores(5, lineaMediocentros);
-            colocarJugadores(1, lineaDelanteros);
+            colocarJugadores(4, jugadoresDefensas, lineaDefensas);
+            colocarJugadores(5, jugadoresMediocentros, lineaMediocentros);
+            colocarJugadores(1, jugadoresDelanteros, lineaDelanteros);
         } else if (formacion.equals("5-2-3")) {
-            colocarJugadores(5, lineaDefensas);
-            colocarJugadores(2, lineaMediocentros);
-            colocarJugadores(3, lineaDelanteros);
+            colocarJugadores(5, jugadoresDefensas, lineaDefensas);
+            colocarJugadores(2, jugadoresMediocentros, lineaMediocentros);
+            colocarJugadores(3, jugadoresDelanteros, lineaDelanteros);
         } else if (formacion.equals("5-3-2")) {
-            colocarJugadores(5, lineaDefensas);
-            colocarJugadores(3, lineaMediocentros);
-            colocarJugadores(2, lineaDelanteros);
+            colocarJugadores(5, jugadoresDefensas, lineaDefensas);
+            colocarJugadores(3, jugadoresMediocentros, lineaMediocentros);
+            colocarJugadores(2, jugadoresDelanteros, lineaDelanteros);
         } else if (formacion.equals("5-4-1")) {
-            colocarJugadores(5, lineaDefensas);
-            colocarJugadores(4, lineaMediocentros);
-            colocarJugadores(1, lineaDelanteros);
+            colocarJugadores(5, jugadoresDefensas, lineaDefensas);
+            colocarJugadores(4, jugadoresMediocentros, lineaMediocentros);
+            colocarJugadores(1, jugadoresDelanteros, lineaDelanteros);
         }
 
     }
 
-    private void colocarJugadores(int cantidad, LinearLayout linea) {
+    private void colocarJugadores(int cantidad, List<Jugador> jugadores, LinearLayout linea) {
         for (int i = 0; i < cantidad; i++) {
-            ImageView jugador = new ImageView(requireActivity());
-            jugador.setImageResource(R.drawable.jugador);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                    200, 200, 1);
+            ImageView jugadorView = new ImageView(requireActivity());
 
-            params.setMargins(8, 0, 8, 0); //margenes entre fotos
+            if (i < jugadores.size()) {
+                Jugador jugador = jugadores.get(i);
 
-            jugador.setLayoutParams(params);
-            linea.addView(jugador);
+                Glide.with(this)
+                        .load(jugador.getImagenUrl()) // URL desde Firestore
+                        .placeholder(R.drawable.jugador) // Imagen por defecto
+                        .into(jugadorView);
+            } else {
+                jugadorView.setImageResource(R.drawable.jugador); // Imagen por defecto si no hay jugadores suficientes
+            }
+
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(200, 200);
+            params.setMargins(8, 0, 8, 0);
+            jugadorView.setLayoutParams(params);
+
+            linea.addView(jugadorView);
         }
     }
+
+
 }

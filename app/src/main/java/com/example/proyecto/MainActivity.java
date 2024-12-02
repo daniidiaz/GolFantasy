@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView linkRegistrar;
 
     private FirebaseFirestore db;  // Instancia de Firestore
+    private MainActivityCreacionFirestore firestoreHelper; // Instancia de MainActivityCreacionFirestore
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // Inicializar Firestore
         db = FirebaseFirestore.getInstance();
+
+        // Inicializar firestoreHelper
+        firestoreHelper = new MainActivityCreacionFirestore();
+
+        // Verificar si la estructura de Firestore ya existe
+        db.collection("usuarios").document("usuario1").get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        if (!task.getResult().exists()) {
+                            // La estructura no existe, crearla
+                            firestoreHelper.crearEstructuraFirestore(db); // Pasar la instancia de Firestore
+                        }
+                    } else {
+                        // Manejar el error
+                        Toast.makeText(MainActivity.this, "Error al verificar la estructura de Firestore", Toast.LENGTH_SHORT).show();
+                    }
+                });
 
         // Referencias a los campos de la interfaz
         etUsuario = findViewById(R.id.etUsuario);
@@ -99,6 +117,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         // Si ocurre algún error en la consulta
                         Toast.makeText(MainActivity.this, "Error al acceder a la base de datos", Toast.LENGTH_SHORT).show();
                     }
-                });
+           });
     }
 }

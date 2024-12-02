@@ -17,9 +17,25 @@
         android:background="@color/verde_sec"
         android:clickable="false"
         android:longClickable="true"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:logo="@drawable/logo_hdpi"
-        app:navigationIcon="@android:drawable/ic_menu_myplaces" />
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <ImageButton
+            android:id="@+id/logoButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/logo_xhdpi" />
+
+        <ImageButton
+            android:id="@+id/btDesplegableInicio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:src="@android:drawable/ic_menu_myplaces" />
+
+    </androidx.appcompat.widget.Toolbar>
 
     <!-- Contenedor Principal -->
     <FrameLayout

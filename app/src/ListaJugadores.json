@@ -1,0 +1,260 @@
+[
+  {
+    "nombre": "Marc-André ter Stegen",
+    "edad": 31,
+    "equipo": "Barcelona",
+    "nacionalidad": "Alemana",
+    "posicion": "Portero"
+  },
+  {
+    "nombre": "Thibaut Courtois",
+    "edad": 31,
+    "equipo": "Real Madrid",
+    "nacionalidad": "Belga",
+    "posicion": "Portero"
+  },
+  {
+    "nombre": "Jan Oblak",
+    "edad": 30,
+    "equipo": "Atlético Madrid",
+    "nacionalidad": "Eslovena",
+    "posicion": "Portero"
+  },
+  {
+    "nombre": "Unai Simón",
+    "edad": 26,
+    "equipo": "Athletic Bilbao",
+    "nacionalidad": "Española",
+    "posicion": "Portero"
+  },
+  {
+    "nombre": "Giorgi Mamardashvili",
+    "edad": 22,
+    "equipo": "Valencia",
+    "nacionalidad": "Georgiana",
+    "posicion": "Portero"
+  },
+  {
+    "nombre": "Ronald Araújo",
+    "edad": 24,
+    "equipo": "Barcelona",
+    "nacionalidad": "Uruguaya",
+    "posicion": "Defensa"
+  },
+  {
+    "nombre": "Jules Koundé",
+    "edad": 24,
+    "equipo": "Barcelona",
+    "nacionalidad": "Francesa",
+    "posicion": "Defensa"
+  },
+  {
+    "nombre": "David Alaba",
+    "edad": 31,
+    "equipo": "Real Madrid",
+    "nacionalidad": "Austriaca",
+    "posicion": "Defensa"
+  },
+  {
+    "nombre": "Éder Militão",
+    "edad": 25,
+    "equipo": "Real Madrid",
+    "nacionalidad": "Brasileña",
+    "posicion": "Defensa"
+  },
+  {
+    "nombre": "José María Giménez",
+    "edad": 28,
+    "equipo": "Atlético Madrid",
+    "nacionalidad": "Uruguaya",
+    "posicion": "Defensa"
+  },
+  {
+    "nombre": "Reinildo Mandava",
+    "edad": 29,
+    "equipo": "Atlético Madrid",
+    "nacionalidad": "Mozambiqueña",
+    "posicion": "Defensa"
+  },
+  {
+    "nombre": "Pau Torres",
+    "edad": 26,
+    "equipo": "Villarreal",
+    "nacionalidad": "Española",
+    "posicion": "Defensa"
+  },
+  {
+    "nombre": "Robin Le Normand",
+    "edad": 26,
+    "equipo": "Real Sociedad",
+    "nacionalidad": "Francesa",
+    "posicion": "Defensa"
+  },
+  {
+    "nombre": "David García",
+    "edad": 29,
+    "equipo": "Osasuna",
+    "nacionalidad": "Española",
+    "posicion": "Defensa"
+  },
+  {
+    "nombre": "Aritz Elustondo",
+    "edad": 29,
+    "equipo": "Real Sociedad",
+    "nacionalidad": "Española",
+    "posicion": "Defensa"
+  },
+  {
+    "nombre": "Pedri",
+    "edad": 20,
+    "equipo": "Barcelona",
+    "nacionalidad": "Española",
+    "posicion": "Centrocampista"
+  },
+  {
+    "nombre": "Gavi",
+    "edad": 18,
+    "equipo": "Barcelona",
+    "nacionalidad": "Española",
+    "posicion": "Centrocampista"
+  },
+  {
+    "nombre": "Frenkie de Jong",
+    "edad": 26,
+    "equipo": "Barcelona",
+    "nacionalidad": "Neerlandesa",
+    "posicion": "Centrocampista"
+  },
+  {
+    "nombre": "Federico Valverde",
+    "edad": 24,
+    "equipo": "Real Madrid",
+    "nacionalidad": "Uruguaya",
+    "posicion": "Centrocampista"
+  },
+  {
+    "nombre": "Luka Modrić",
+    "edad": 37,
+    "equipo": "Real Madrid",
+    "nacionalidad": "Croata",
+    "posicion": "Centrocampista"
+  },
+  {
+    "nombre": "Toni Kroos",
+    "edad": 33,
+    "equipo": "Real Madrid",
+    "nacionalidad": "Alemana",
+    "posicion": "Centrocampista"
+  },
+  {
+    "nombre": "Dani Parejo",
+    "edad": 34,
+    "equipo": "Villarreal",
+    "nacionalidad": "Española",
+    "posicion": "Centrocampista"
+  },
+  {
+    "nombre": "Mikel Merino",
+    "edad": 27,
+    "equipo": "Real Sociedad",
+    "nacionalidad": "Española",
+    "posicion": "Centrocampista"
+  },
+  {
+    "nombre": "Brais Méndez",
+    "edad": 26,
+    "equipo": "Real Sociedad",
+    "nacionalidad": "Española",
+    "posicion": "Centrocampista"
+  },
+  {
+    "nombre": "Oihan Sancet",
+    "edad": 23,
+    "equipo": "Athletic Bilbao",
+    "nacionalidad": "Española",
+    "posicion": "Centrocampista"
+  },
+  {
+    "nombre": "Mikel Vesga",
+    "edad": 29,
+    "equipo": "Athletic Bilbao",
+    "nacionalidad": "Española",
+    "posicion": "Centrocampista"
+  },
+  {
+    "nombre": "Karim Benzema",
+    "edad": 35,
+    "equipo": "Real Madrid",
+    "nacionalidad": "Francesa",
+    "posicion": "Delantero"
+  },
+  {
+    "nombre": "Robert Lewandowski",
+    "edad": 34,
+    "equipo": "Barcelona",
+    "nacionalidad": "Polaca",
+    "posicion": "Delantero"
+  },
+  {
+    "nombre": "Antoine Griezmann",
+    "edad": 32,
+    "equipo": "Atlético Madrid",
+    "nacionalidad": "Francesa",
+    "posicion": "Delantero"
+  },
+  {
+    "nombre": "Vinicius Junior",
+    "edad": 22,
+    "equipo": "Real Madrid",
+    "nacionalidad": "Brasileña",
+    "posicion": "Delantero"
+  },
+  {
+    "nombre": "Ferran Torres",
+    "edad": 23,
+    "equipo": "Barcelona",
+    "nacionalidad": "Española",
+    "posicion": "Delantero"
+  },
+  {
+    "nombre": "Ansu Fati",
+    "edad": 20,
+    "equipo": "Barcelona",
+    "nacionalidad": "Española",
+    "posicion": "Delantero"
+  },
+  {
+    "nombre": "Raphinha",
+    "edad": 26,
+    "equipo": "Barcelona",
+    "nacionalidad": "Brasileña",
+    "posicion": "Delantero"
+  },
+  {
+    "nombre": "Ousmane Dembélé",
+    "edad": 26,
+    "equipo": "Barcelona",
+    "nacionalidad": "Francesa",
+    "posicion": "Delantero"
+  },
+  {
+    "nombre": "Iñaki Williams",
+    "edad": 29,
+    "equipo": "Athletic Bilbao",
+    "nacionalidad": "Española",
+    "posicion": "Delantero"
+  },
+  {
+    "nombre": "Yeremy Pino",
+    "edad": 20,
+    "equipo": "Villarreal",
+    "nacionalidad": "Española",
+    "posicion": "Delantero"
+  },
+  {
+    "nombre": "Gerard Moreno",
+    "edad": 31,
+    "equipo": "Villarreal",
+    "nacionalidad": "Española",
+    "posicion": "Delantero"
+  }]

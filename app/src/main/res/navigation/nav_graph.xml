@@ -17,7 +17,7 @@
 
     <fragment
         android:id="@+id/otroFragment"
-        android:name=""
+        android:name="com.example.proyecto.OtroFragment"
         android:label="Otro Fragmento"
         tools:layout="@layout/fragment_otro" />
 </navigation>

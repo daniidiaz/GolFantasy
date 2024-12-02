@@ -30,9 +30,9 @@ import retrofit2.Response;
 public class EquipoFragment extends Fragment {
 
     private FirebaseFirestore db;
-    private List<Jugador> jugadoresDefensas = new ArrayList<>();
-    private List<Jugador> jugadoresMediocentros = new ArrayList<>();
-    private List<Jugador> jugadoresDelanteros = new ArrayList<>();
+    private final List<Jugador> jugadoresDefensas = new ArrayList<>();
+    private final List<Jugador> jugadoresMediocentros = new ArrayList<>();
+    private final List<Jugador> jugadoresDelanteros = new ArrayList<>();
 
     private List<Jugador> jugadoresLiga;
 

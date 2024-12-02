@@ -1,0 +1,117 @@
+package com.example.proyecto;
+
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+public class ControladorBBDD {
+
+    private FirebaseFirestore db;
+
+    public ControladorBBDD() {
+        db = FirebaseFirestore.getInstance();
+    }
+
+    public void crearEstructuraInicial() {
+        // Verificar si la estructura de Firestore ya existe
+        db.collection("usuarios").document("usuario1").get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        if (!task.getResult().exists()) {
+                            // La estructura no existe, crearla
+                            crearEstructuraFirestore();
+                        }
+                    } else {
+                        // Manejar el error
+                        // Puedes agregar aquí la lógica para manejar el error,
+                        // como mostrar un mensaje al usuario o registrar el error.
+                        // Por ejemplo:
+                        // Log.e("ControladorBBDD", "Error al verificar la estructura de Firestore: " + task.getException());
+                    }
+                });
+    }
+
+    private void crearEstructuraFirestore() {
+        crearUsuarios();
+        crearLigas();
+        crearEquipos();
+        crearJugadores();
+        crearMembresias();
+    }
+
+    private void crearUsuarios(String nombreUsuario, String correo) {
+        Map<String, Object> usuario = new HashMap<>();
+        usuario.put("nombreUsuario", nombreUsuario);
+        usuario.put("correo", correo);
+        usuario.put("ligasCreadas", new ArrayList<>());
+        usuario.put("ligasUnidas", new ArrayList<>());
+
+        // Agregar el usuario a Firestore con un ID único generado automáticamente
+        db.collection("usuarios").add(usuario)
+                .addOnSuccessListener(documentReference -> {
+                    // El ID del usuario se encuentra en documentReference.getId()
+                    // Se guarda el ID en el documento del usuario
+                    documentReference.update("idUsuario", documentReference.getId());
+                });
+    }
+
+    private void crearEquipoDeUsuario(String idUsuario, String idLiga, String idEquipo) {
+        Map<String, Object> equipoDeUsuario = new HashMap<>();
+        equipoDeUsuario.put("idUsuario", idUsuario);
+        equipoDeUsuario.put("idLiga", idLiga);
+        equipoDeUsuario.put("idEquipo", idEquipo);
+
+        db.collection("equiposDeUsuario").add(equipoDeUsuario);
+    }
+
+    private void crearLigas(String nombreLiga, String idUsuarioCreador) {
+        Map<String, Object> liga1 = new HashMap<>();
+        liga1.put("nombre", nombreLiga);
+        liga1.put("administrador", idUsuarioCreador);
+        liga1.put("miembros", new ArrayList<>());
+        liga1.put("equipos", new ArrayList<>());
+        liga1.put("reglasDePuntuación", new HashMap<String, Integer>() {{
+            put("goleador", 4);
+            put("asistencia", 3);
+        }});
+
+        db.collection("ligas").document("liga1").set(liga1);
+    }
+
+    private void crearEquipos() {
+        Map<String, Object> equipoA = new HashMap<>();
+        equipoA.put("nombre", "Equipo A");
+        equipoA.put("usuario", "usuario1");
+        equipoA.put("jugadores", new ArrayList<>());
+        equipoA.put("liga", "liga1");
+        equipoA.put("puntosTotales", 0);
+
+        db.collection("equipos").document("equipoA").set(equipoA);
+    }
+
+    private void crearJugadores() {
+        Map<String, Object> jugador1 = new HashMap<>();
+        jugador1.put("nombre", "Jugador 1");
+        jugador1.put("equipo", "Equipo A");
+        jugador1.put("posición", "Delantero");
+        jugador1.put("puntosPorPartido", 5);
+        jugador1.put("precio", 10);
+
+        db.collection("jugadores").document("jugador1").set(jugador1);
+    }
+
+    private void crearMembresias() {
+        db.collection("ligas").document("liga1").collection("miembros").document("membresia1").set(new HashMap<String, Object>() {{
+            put("usuario", "usuario1");
+            put("rol", "admin");
+            put("fechaDeIngreso", FieldValue.serverTimestamp());
+        }});
+
+    }
+
+    // ... otros métodos de ControladorBBDD ...
+}

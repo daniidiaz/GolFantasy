@@ -27,16 +27,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PaginaCrearUsuario extends AppCompatActivity implements View.OnClickListener {
-
-    // Define una referencia a la base de datos
-    private FirebaseFirestore db;
-
     private Spinner spinnerEquipos;
     private EditText editTextContrasenia;
     private ImageButton btnVerContraseña;
     private boolean isPasswordVisible = false;
     private Toolbar toolbar;
     private Button btnCrearCuenta;
+    EditText etNombreUsuario;
+    EditText etEmail;
+    EditText etTelefono;
+    EditText etContrasenia;
+    String nombreUsuario;
+    String contrasenia;
+    String email;
+    String telefono;
+    String equipoFavorito;
+    ControladorBBDD db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,13 +55,16 @@ public class PaginaCrearUsuario extends AppCompatActivity implements View.OnClic
             return insets;
         });
 
-        db = FirebaseFirestore.getInstance();// Inicializa Firestore
+        db = new ControladorBBDD();// Inicializa Firestore
 
-        editTextContrasenia = findViewById(R.id.editTextText6);
         btnVerContraseña = findViewById(R.id.btnVerContraseña);
         btnVerContraseña.setOnClickListener(this);
         btnCrearCuenta=findViewById(R.id.btnCrearCuenta);
         btnCrearCuenta.setOnClickListener(this);
+        etNombreUsuario = findViewById(R.id.etCrearNombre);
+        etEmail = findViewById(R.id.editTextText5);
+        etTelefono = findViewById(R.id.editTextText4);
+        etContrasenia = findViewById(R.id.editTextText6);
 
         // Configurar el toolbar
         toolbar = findViewById(R.id.toolbarInicio);
@@ -94,55 +103,44 @@ public class PaginaCrearUsuario extends AppCompatActivity implements View.OnClic
         });
 
         }
+        public void recogerDatos(){
+            nombreUsuario = etNombreUsuario.getText().toString().trim();
+            contrasenia = etContrasenia.getText().toString().trim();
+            email = etEmail.getText().toString().trim();
+            telefono = etTelefono.getText().toString().trim();
+            equipoFavorito = spinnerEquipos.getSelectedItem().toString();
+
+        }
 
     private void guardarDatosEnFirebase() {
-        // Obtener los datos de los campos
-        EditText etNombreUsuario = findViewById(R.id.etCrearNombre);
-        EditText etEmail = findViewById(R.id.editTextText5);
-        EditText etTelefono = findViewById(R.id.editTextText4);
-        EditText etContrasenia = findViewById(R.id.editTextText6);
-        Spinner spEquipoFavorito = findViewById(R.id.spinnerEquipos);
+        recogerDatos();
+        Usuario usuario = new Usuario(nombreUsuario, contrasenia, email, telefono, equipoFavorito);
+        db.crearUsuarios(usuario, new ControladorBBDD.CrearUsuarioCallback() {
+            @Override
+            public void onSuccess() {
+                // Usuario creado con éxito
+                // ... mostrar notificación de éxito ...
+                // Por ejemplo:
+                Toast.makeText(getApplicationContext(), "Usuario creado con éxito", Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(getApplicationContext(), PantallaJuegoPrincipal.class);
+                startActivity(i);
+            }
 
-        String email = etEmail.getText().toString().trim();
-        String telefono = etTelefono.getText().toString().trim();
+            @Override
+            public void onUserExists() {
+                // El usuario ya existe
+                // ... mostrar notificación de usuario existente ...
+                // Por ejemplo:
+                Toast.makeText(getApplicationContext(), "El usuario ya existe", Toast.LENGTH_SHORT).show();
+            }
 
-        // Verificar si el email o el teléfono ya existen
-        db.collection("usuarios")
-                .whereEqualTo("email", email)
-                .get()
-                .addOnCompleteListener(taskEmail -> {
-                    if (taskEmail.isSuccessful() && !taskEmail.getResult().isEmpty()) {
-                        Toast.makeText(this, "El email ya existe", Toast.LENGTH_SHORT).show();
-                    } else {
-                        db.collection("usuarios")
-                                .whereEqualTo("telefono", telefono)
-                                .get()
-                                .addOnCompleteListener(taskTelefono -> {
-                                    if (taskTelefono.isSuccessful() && !taskTelefono.getResult().isEmpty()) {
-                                        Toast.makeText(this, "El teléfono ya existe", Toast.LENGTH_SHORT).show();
-                                    } else {
-                                        // Convertir datos en un Map para guardarlos en Firebase
-                                        Map<String, Object> usuario = new HashMap<>();
-                                        usuario.put("nombreUsuario", etNombreUsuario.getText().toString().trim());
-                                        usuario.put("email", email);
-                                        usuario.put("telefono", telefono);
-                                        usuario.put("contrasenia", etContrasenia.getText().toString().trim());
-                                        usuario.put("equipoFavorito", spEquipoFavorito.getSelectedItem().toString());
-
-                                        // Añadir datos a Firebase
-                                        db.collection("usuarios").add(usuario)
-                                                .addOnSuccessListener(documentReference -> {
-                                                    Toast.makeText(PaginaCrearUsuario.this, "Cuenta creada con éxito!", Toast.LENGTH_SHORT).show();
-                                                    // Navegar a la siguiente pantalla solo si se crea la cuenta
-                                                    Intent i = new Intent(PaginaCrearUsuario.this, ElegirCrearOUnirseLiga.class);
-                                                    startActivity(i);
-                                                })
-                                                .addOnFailureListener(e ->
-                                                        Toast.makeText(PaginaCrearUsuario.this, "Error al crear cuenta: " + e.getMessage(), Toast.LENGTH_SHORT).show());
-                                    }
-                                });
-                    }
-                });
+            @Override
+            public void onError(Exception e) {
+                // Error al crear el usuario
+                // ... mostrar notificación de error ...
+                Toast.makeText(getApplicationContext(), "Error al crear el usuario: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 

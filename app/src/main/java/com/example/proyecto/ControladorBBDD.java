@@ -23,7 +23,7 @@ public class ControladorBBDD {
                     if (task.isSuccessful()) {
                         if (!task.getResult().exists()) {
                             // La estructura no existe, crearla
-                            crearEstructuraFirestore();
+                            //crearEstructuraFirestore();
                         }
                     } else {
                         // Manejar el error
@@ -35,29 +35,49 @@ public class ControladorBBDD {
                 });
     }
 
-    private void crearEstructuraFirestore() {
-        crearUsuarios();
-        crearLigas();
-        crearEquipos();
-        crearJugadores();
-        crearMembresias();
-    }
+        public interface CrearUsuarioCallback {
+            void onSuccess();
+            void onUserExists();
+            void onError(Exception e);
+        }
 
-    private void crearUsuarios(String nombreUsuario, String correo) {
-        Map<String, Object> usuario = new HashMap<>();
-        usuario.put("nombreUsuario", nombreUsuario);
-        usuario.put("correo", correo);
-        usuario.put("ligasCreadas", new ArrayList<>());
-        usuario.put("ligasUnidas", new ArrayList<>());
+        public void crearUsuarios(Usuario usuario, CrearUsuarioCallback callback) {
+            // Verificar si el usuario ya existe por correo electrónico
+            db.collection("usuarios")
+                    .whereEqualTo("correo", usuario.getCorreo())
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            if (task.getResult().isEmpty()) {
+                                // El usuario no existe, crearlo
+                                crearNuevoUsuario(usuario, callback);
+                            } else {
+                                // El usuario ya existe
+                                callback.onUserExists();
+                            }
+                        } else {
+                            // Error en la consulta
+                            callback.onError(task.getException());
+                        }
+                    });
+        }
 
-        // Agregar el usuario a Firestore con un ID único generado automáticamente
-        db.collection("usuarios").add(usuario)
-                .addOnSuccessListener(documentReference -> {
-                    // El ID del usuario se encuentra en documentReference.getId()
-                    // Se guarda el ID en el documento del usuario
-                    documentReference.update("idUsuario", documentReference.getId());
-                });
-    }
+
+        private void crearNuevoUsuario(Usuario usuario, CrearUsuarioCallback callback) {
+            Map<String, Object> temp = new HashMap<>();
+            temp.put("nombreUsuario", usuario.getNombreUsuario());
+            temp.put("telefono", usuario.getTelefono());
+            temp.put("correo", usuario.getCorreo());
+            temp.put("ligasCreadas", new ArrayList<>());
+            temp.put("ligasUnidas", new ArrayList<>());
+
+            db.collection("usuarios").add(temp)
+                    .addOnSuccessListener(documentReference -> {
+                        documentReference.update("idUsuario", documentReference.getId());
+                        callback.onSuccess();
+                    })
+                    .addOnFailureListener(callback::onError);
+        }
 
     private void crearEquipoDeUsuario(String idUsuario, String idLiga, String idEquipo) {
         Map<String, Object> equipoDeUsuario = new HashMap<>();
@@ -74,7 +94,7 @@ public class ControladorBBDD {
         liga1.put("administrador", idUsuarioCreador);
         liga1.put("miembros", new ArrayList<>());
         liga1.put("equipos", new ArrayList<>());
-        liga1.put("reglasDePuntuación", new HashMap<String, Integer>() {{
+        liga1.put("reglasDePuntuacion", new HashMap<String, Integer>() {{
             put("goleador", 4);
             put("asistencia", 3);
         }});
@@ -108,7 +128,6 @@ public class ControladorBBDD {
         db.collection("ligas").document("liga1").collection("miembros").document("membresia1").set(new HashMap<String, Object>() {{
             put("usuario", "usuario1");
             put("rol", "admin");
-            put("fechaDeIngreso", FieldValue.serverTimestamp());
         }});
 
     }

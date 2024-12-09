@@ -66,6 +66,7 @@ public class ControladorBBDD {
         private void crearNuevoUsuario(Usuario usuario, CrearUsuarioCallback callback) {
             Map<String, Object> temp = new HashMap<>();
             temp.put("nombreUsuario", usuario.getNombreUsuario());
+            temp.put("contraseña", usuario.getContrasenia());
             temp.put("telefono", usuario.getTelefono());
             temp.put("correo", usuario.getCorreo());
             temp.put("ligasCreadas", new ArrayList<>());
@@ -88,19 +89,69 @@ public class ControladorBBDD {
         db.collection("equiposDeUsuario").add(equipoDeUsuario);
     }
 
-    private void crearLigas(String nombreLiga, String idUsuarioCreador) {
-        Map<String, Object> liga1 = new HashMap<>();
-        liga1.put("nombre", nombreLiga);
-        liga1.put("administrador", idUsuarioCreador);
-        liga1.put("miembros", new ArrayList<>());
-        liga1.put("equipos", new ArrayList<>());
-        liga1.put("reglasDePuntuacion", new HashMap<String, Integer>() {{
+    public interface CrearLigaCallback {
+        void onSuccess(String idLiga);
+        void onError(Exception e);
+    }
+
+    public void crearLigas(String nombreLiga, String idUsuarioCreador, CrearLigaCallback callback) {
+        if (nombreLiga == null || nombreLiga.isEmpty() || idUsuarioCreador == null || idUsuarioCreador.isEmpty()) {
+            callback.onError(new IllegalArgumentException("El nombre de la liga o el ID del usuario no pueden estar vacíos."));
+            return;
+        }
+
+        // Crear los datos de la liga
+        Map<String, Object> liga = new HashMap<>();
+        liga.put("nombre", nombreLiga);
+        liga.put("administrador", idUsuarioCreador);
+        liga.put("miembros", new ArrayList<>()); // Lista vacía de miembros
+        liga.put("equipos", new ArrayList<>()); // Lista vacía de equipos
+        liga.put("reglasDePuntuacion", new HashMap<String, Integer>() {{
             put("goleador", 4);
             put("asistencia", 3);
         }});
+        liga.put("fechaCreacion", FieldValue.serverTimestamp());
 
-        db.collection("ligas").document("liga1").set(liga1);
+        // Guardar la liga en Firestore
+        db.collection("ligas")
+                .add(liga)
+                .addOnSuccessListener(documentReference -> {
+                    // Actualizar el documento con su ID generado automáticamente
+                    documentReference.update("idLiga", documentReference.getId(),
+                                    "miembros", FieldValue.arrayUnion(idUsuarioCreador))
+                            .addOnSuccessListener(aVoid -> callback.onSuccess(documentReference.getId()))
+                            .addOnFailureListener(callback::onError);
+                })
+                .addOnFailureListener(callback::onError);
     }
+
+    // Callback para la operación de unirse a una liga
+    public interface UnirseLigaCallback {
+        void onSuccess();
+        void onNotFound();
+        void onError(Exception e);
+    }
+
+    // Unirse a una liga
+    public void unirseALiga(String idLiga, String usuarioId, UnirseLigaCallback callback) {
+        db.collection("ligas")
+                .document(idLiga) // Buscar la liga por su ID
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && task.getResult().exists()) {
+                        // Liga encontrada, añadir el usuario al array de miembros
+                        db.collection("ligas").document(idLiga)
+                                .update("miembros", FieldValue.arrayUnion(usuarioId)) // Agregar al usuario al array
+                                .addOnSuccessListener(unused -> callback.onSuccess())
+                                .addOnFailureListener(callback::onError);
+                    } else {
+                        // Liga no encontrada
+                        callback.onNotFound();
+                    }
+                })
+                .addOnFailureListener(callback::onError);
+    }
+
 
     private void crearEquipos() {
         Map<String, Object> equipoA = new HashMap<>();

@@ -1,56 +1,76 @@
 package com.example.proyecto;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
-public class UnirseLiga extends AppCompatActivity implements View.OnClickListener{
+public class UnirseLiga extends AppCompatActivity {
 
-    private Button btIDLiga;
-    private TextView tvUnirseLiga;
+    private Toolbar toolbar;
     private EditText etIDLiga;
-    private Toolbar tbUnirseLiga;
+    private Button btUnirseLiga;
+    private ControladorBBDD controladorBBDD;
+    private String usuarioId; // Recuperar el ID del usuario actual al iniciar sesión
 
-
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_unirse_liga);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
-        tvUnirseLiga = findViewById(R.id.tvUnirseLiga);
+
+        // Inicializar el controlador de la base de datos
+        controladorBBDD = new ControladorBBDD();
+
+        // Configurar el Toolbar
+        toolbar = findViewById(R.id.tbUnirseLiga);
+        setSupportActionBar(toolbar);
+
+        // Referencias de la interfaz
         etIDLiga = findViewById(R.id.etIDLiga);
+        btUnirseLiga = findViewById(R.id.btIDLiga);
 
-        tbUnirseLiga = findViewById(R.id.toolbarInicio);
-        setSupportActionBar(tbUnirseLiga);
+        // Recuperar el usuario ID pasado como intent extra
+        usuarioId = getIntent().getStringExtra("usuarioId");
 
-        btIDLiga = findViewById(R.id.btIDLiga);
-        btIDLiga.setOnClickListener(this);
+        // Asignar el listener al botón
+        btUnirseLiga.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String idLiga = etIDLiga.getText().toString().trim();
 
-    }
+                if (idLiga.isEmpty()) {
+                    Toast.makeText(UnirseLiga.this, "Pon el ID de una Liga", Toast.LENGTH_SHORT).show();
+                } else {
+                    // Llamar al método de la clase ControladorBBDD
+                    controladorBBDD.unirseALiga(idLiga, usuarioId, new ControladorBBDD.UnirseLigaCallback() {
+                        @Override
+                        public void onSuccess() {
+                            Toast.makeText(UnirseLiga.this, "Te has unido a la liga con éxito", Toast.LENGTH_SHORT).show();
 
+                            // Redirigir a la pantalla principal del juego
+                            Intent intent = new Intent(UnirseLiga.this, PantallaJuegoPrincipal.class);
+                            intent.putExtra("idLiga", idLiga); // Pasar el ID de la liga como extra
+                            intent.putExtra("usuarioId", usuarioId); // Pasar el ID del usuario como extra
+                            startActivity(intent);
+                        }
 
-    @Override
-    public void onClick(View v) {
-        if (v.getId() == R.id.btIDLiga) {
-            Intent i = new Intent(this, PantallaJuegoPrincipal.class);
-            startActivity(i);
-        }
+                        @Override
+                        public void onNotFound() {
+                            Toast.makeText(UnirseLiga.this, "No se encontró la liga con ese ID", Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onError(Exception e) {
+                            Toast.makeText(UnirseLiga.this, "Error al unirse a la liga: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        });
     }
 }

@@ -18,6 +18,7 @@ public class ElegirCrearOUnirseLiga extends AppCompatActivity implements View.On
 
     private Toolbar toolbar;
     private Button btnCrear, btnUnirse;
+    private String usuarioId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +43,9 @@ public class ElegirCrearOUnirseLiga extends AppCompatActivity implements View.On
 
         btnUnirse=findViewById(R.id.btnUnirseLiga);
         btnUnirse.setOnClickListener(this);
+
+        // Recuperar el usuarioId del Intent
+         usuarioId = getIntent().getStringExtra("usuarioId");
     }
 
 
@@ -49,11 +53,13 @@ public class ElegirCrearOUnirseLiga extends AppCompatActivity implements View.On
     public void onClick(View view) {
 
         if (view.getId()==R.id.btnCrearNuevaLiga){
-            Intent i=new Intent(this, PantallaJuegoPrincipal.class);
+            Intent i=new Intent(this, CreacionDeLigaFantasy.class);
+            i.putExtra("usuarioId", usuarioId); // Pasar el usuarioId
             startActivity(i);
 
         } else if (view.getId()==R.id.btnUnirseLiga) {
             Intent i=new Intent(this, UnirseLiga.class);
+            i.putExtra("usuarioId", usuarioId); // Pasar el usuarioId
             startActivity(i);
         }
     }

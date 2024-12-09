@@ -83,11 +83,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         } else {
                             // Si se encuentra un documento, verificamos la contraseña
                             for (QueryDocumentSnapshot document : querySnapshot) {
-                                String contraseniaGuardada = document.getString("contrasenia");
+                                String contraseniaGuardada = document.getString("contraseña");
 
                                 if (contrasenia.equals(contraseniaGuardada)) {
-                                    // Si la contraseña coincide, navegar a la siguiente pantalla
-                                    Intent intent = new Intent(MainActivity.this, PantallaJuegoPrincipal.class);
+                                    //Si la contraseña coincide
+                                    String usuarioId = document.getId(); // Obtén el ID del documento
+
+                                    //Navegar a la siguiente pantalla
+                                    Intent intent = new Intent(MainActivity.this, ElegirCrearOUnirseLiga.class);
+                                    intent.putExtra("usuarioId", usuarioId); // Pasar el usuarioId por el Intent
                                     startActivity(intent);
                                 } else {
                                     // Si la contraseña no coincide

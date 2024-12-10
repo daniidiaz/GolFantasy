@@ -16,6 +16,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -90,13 +91,21 @@ public class CreacionDeLigaFantasy extends AppCompatActivity implements View.OnC
                 public void onSuccess(String idLiga) {
                     Toast.makeText(CreacionDeLigaFantasy.this, "Liga creada con ID: " + idLiga, Toast.LENGTH_SHORT).show();
 
-                    // Devolver resultado a la actividad previa
-                    Intent intent = new Intent();
-                    intent.putExtra("contadorLigas", 1); // Incrementar contador de ligas
-                    intent.putExtra("idLiga", idLiga); // Devolver el ID de la liga creada
-                    setResult(RESULT_OK, intent);
+                    // Actualizar el array `ligasCreadas` en el usuario
+                    db.collection("usuarios").document(usuarioId)
+                            .update("ligasCreadas", FieldValue.arrayUnion(idLiga))
+                            .addOnSuccessListener(aVoid -> {
+                                // Redirigir a PantallaJuegoPrincipal
+                                Intent intent = new Intent(CreacionDeLigaFantasy.this, PantallaJuegoPrincipal.class);
+                                intent.putExtra("idLiga", idLiga); // Puedes pasar el ID de la liga si es necesario
+                                intent.putExtra("nombreLiga", nombreLiga); // También puedes pasar el nombre de la liga
+                                startActivity(intent);
 
-                    finish(); // Cierra la actividad
+                                finish(); // Cierra esta actividad para que no esté en la pila de actividades
+                            })
+                            .addOnFailureListener(e -> {
+                                Toast.makeText(CreacionDeLigaFantasy.this, "Error al actualizar usuario: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            });
                 }
 
                 @Override
@@ -106,5 +115,7 @@ public class CreacionDeLigaFantasy extends AppCompatActivity implements View.OnC
             });
         }
     }
+
+
 
 }

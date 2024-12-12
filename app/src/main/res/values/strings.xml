@@ -5,4 +5,6 @@
     <string name="tvIDLiga" translatable="false">Introduce el ID de la liga a la que deseas unirte.</string>
     <string name="etIDLiga" translatable="false">ID de liga</string>
     <string name="btUnirseLiga" translatable="false">Unirse</string>
+    <string name="navigation_drawer_open" translatable="false">Abrir menú de navegación</string>
+    <string name="navigation_drawer_close" translatable="false">Cerrar menú de navegación</string>
 </resources>

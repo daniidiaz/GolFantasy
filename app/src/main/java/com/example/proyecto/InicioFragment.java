@@ -6,7 +6,6 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +16,6 @@ import android.widget.Toast;
 
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,9 +25,9 @@ import java.util.List;
  * Use the {@link InicioFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class InicioFragment extends Fragment implements View.OnClickListener {
+public class InicioFragment extends Fragment  {
 
-    private Button btnIrACrearLiga;
+    private Button btnCrearLiga;
     private TextView tvLigasCreadas;
     private LinearLayout llListaLigas;
 
@@ -88,8 +86,14 @@ public class InicioFragment extends Fragment implements View.OnClickListener {
 
         View view = inflater.inflate(R.layout.fragment_inicio, container, false);
 
-        btnIrACrearLiga = view.findViewById(R.id.btnCrearLiga);
-        btnIrACrearLiga.setOnClickListener(this);
+        btnCrearLiga = view.findViewById(R.id.btnCrearLiga);
+        btnCrearLiga.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), CreacionDeLigaFantasy.class);
+                startActivity(intent);
+            }
+        });
 
         tvLigasCreadas = view.findViewById(R.id.tvLigasCreadas);
         llListaLigas = view.findViewById(R.id.llListaLigas);
@@ -98,15 +102,6 @@ public class InicioFragment extends Fragment implements View.OnClickListener {
 
 
         return view;
-    }
-
-    @Override
-    public void onClick(View view) {
-        if (view.getId()==R.id.btnCrearLiga){
-            Intent intent = new Intent(getActivity(), CreacionDeLigaFantasy.class);
-            startActivity(intent);
-        }
-
     }
 
     @Override
@@ -163,4 +158,6 @@ public class InicioFragment extends Fragment implements View.OnClickListener {
             }
         }
     }
+
+
 }

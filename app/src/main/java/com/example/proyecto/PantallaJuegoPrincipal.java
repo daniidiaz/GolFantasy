@@ -1,12 +1,18 @@
 package com.example.proyecto;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View; // Importa la clase correcta
+import android.widget.Button;
+import android.widget.ImageButton;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
+import androidx.core.view.GravityCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -21,6 +27,7 @@ public class PantallaJuegoPrincipal extends AppCompatActivity {
     ActivityPantallaJuegoPrincipalBinding binding;
     Toolbar toolbarInicio;
     DrawerLayout drawerLayout;
+    ActionBarDrawerToggle toggle; // Añade el ActionBarDrawerToggle
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +46,41 @@ public class PantallaJuegoPrincipal extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         drawerLayout = findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawerLayout, toolbarInicio, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        ImageButton btDesplegableInicio = findViewById(R.id.btDesplegableInicio);
+        Button btnCrearLiga = findViewById(R.id.btnCrearLiga);
+        Button btnUnirseLiga = findViewById(R.id.btnUnirseLiga);
+
+        // Configura el ActionBarDrawerToggle
+        toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbarInicio, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
+
+        btDesplegableInicio.setOnClickListener(new View.OnClickListener() { // Usa android.view.View
+            @Override
+            public void onClick(View v) {
+                drawerLayout.openDrawer(GravityCompat.START);
+            }
+        });
+
+        btnCrearLiga.setOnClickListener(new View.OnClickListener() { // Usa android.view.View
+            @Override
+            public void onClick(View v) {
+                // Lógica para el botón Crear Liga
+                Intent intent = new Intent(PantallaJuegoPrincipal.this, CreacionDeLigaFantasy.class);
+                startActivity(intent);
+                drawerLayout.closeDrawer(GravityCompat.START);
+            }
+        });
+
+        btnUnirseLiga.setOnClickListener(new View.OnClickListener() { // Usa android.view.View
+            @Override
+            public void onClick(View v) {
+                // Lógica para el botón Unirse a Liga
+                Intent intent = new Intent(PantallaJuegoPrincipal.this, UnirseLiga.class);
+                startActivity(intent);
+                drawerLayout.closeDrawer(GravityCompat.START);
+            }
+        });
 
         remplazarFragment(new InicioFragment());
 
@@ -65,19 +103,21 @@ public class PantallaJuegoPrincipal extends AppCompatActivity {
 
             return true;
         });
-
-
     }
 
     private void remplazarFragment(Fragment fragment) {
-
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frame_layout, fragment);
         fragmentTransaction.commit();
-
-
     }
 
-
+    // Añade este método para que el botón de hamburguesa funcione
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (toggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

@@ -69,7 +69,7 @@ public class UnirseLiga extends AppCompatActivity {
                                         intent.putExtra("usuarioId", usuarioId); // Pasar el ID del usuario como extra
                                         startActivity(intent);
 
-                                        finish(); // Cierra esta actividad para que no quede en la pila
+                                       // finish(); // Cierra esta actividad para que no quede en la pila
                                     })
                                     .addOnFailureListener(e -> {
                                         Toast.makeText(UnirseLiga.this, "Error al actualizar ligasUnidas: " + e.getMessage(), Toast.LENGTH_SHORT).show();

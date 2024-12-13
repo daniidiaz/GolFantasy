@@ -80,84 +80,84 @@ public class InicioFragment extends Fragment  {
 
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
-        View view = inflater.inflate(R.layout.fragment_inicio, container, false);
-
-        btnCrearLiga = view.findViewById(R.id.btnCrearLiga);
-        btnCrearLiga.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), CreacionDeLigaFantasy.class);
-                startActivity(intent);
-            }
-        });
-
-        tvLigasCreadas = view.findViewById(R.id.tvLigasCreadas);
-        llListaLigas = view.findViewById(R.id.llListaLigas);
-
-        cargarLigasDelUsuario();
-
-
-        return view;
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == 1 && resultCode == getActivity().RESULT_OK && data != null) {
-            String nuevaLiga = data.getStringExtra("nuevaLiga");
-            if (nuevaLiga != null) {
-                ligas.add(nuevaLiga);
-                actualizarVistaLigas();
-            }
-        }
-    }
-
-    private void cargarLigasDelUsuario() {
-        db.collection("ligas")
-                .whereArrayContains("miembros", idUsuario)
-                .get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-                    ligas.clear();
-                    for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
-                        if (document.exists()) { // Verifica que el documento es válido
-                            String liga = document.getString("nombre");
-                            if (liga != null) {
-                                ligas.add(liga);
-                            }
-                        }
-                    }
-
-
-                    actualizarVistaLigas();
-                })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(getContext(), "Error al cargar ligas: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                });
-    }
-
-    private void actualizarVistaLigas() {
-        llListaLigas.removeAllViews(); // Limpiar el layout antes de agregar nuevas ligas
-
-        if (ligas.isEmpty()) {
-            tvLigasCreadas.setText("Todavía no participas en ninguna liga");
-        } else {
-            tvLigasCreadas.setText("Participas en " + ligas.size() + " ligas");
-
-            for (String liga : ligas) {
-                TextView textView = new TextView(getContext());
-                textView.setText(liga);
-                textView.setPadding(16, 16, 16, 16);
-                textView.setTextSize(16);
-                textView.setBackgroundResource(R.drawable.borde_item_liga); // Opcional: fondo personalizado
-                llListaLigas.addView(textView);
-            }
-        }
-    }
+//    @Override
+//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+//                             Bundle savedInstanceState) {
+//
+//        View view = inflater.inflate(R.layout.fragment_inicio, container, false);
+//
+//        btnCrearLiga = view.findViewById(R.id.btnCrearLiga);
+//        btnCrearLiga.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(getActivity(), CreacionDeLigaFantasy.class);
+//                startActivity(intent);
+//            }
+//        });
+//
+//        tvLigasCreadas = view.findViewById(R.id.tvLigasCreadas);
+//        llListaLigas = view.findViewById(R.id.llListaLigas);
+//
+//        cargarLigasDelUsuario();
+//
+//
+//        return view;
+//    }
+//
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//
+//        if (requestCode == 1 && resultCode == getActivity().RESULT_OK && data != null) {
+//            String nuevaLiga = data.getStringExtra("nuevaLiga");
+//            if (nuevaLiga != null) {
+//                ligas.add(nuevaLiga);
+//                actualizarVistaLigas();
+//            }
+//        }
+//    }
+//
+//    private void cargarLigasDelUsuario() {
+//        db.collection("ligas")
+//                .whereArrayContains("miembros", idUsuario)
+//                .get()
+//                .addOnSuccessListener(queryDocumentSnapshots -> {
+//                    ligas.clear();
+//                    for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
+//                        if (document.exists()) { // Verifica que el documento es válido
+//                            String liga = document.getString("nombre");
+//                            if (liga != null) {
+//                                ligas.add(liga);
+//                            }
+//                        }
+//                    }
+//
+//
+//                    actualizarVistaLigas();
+//                })
+//                .addOnFailureListener(e -> {
+//                    Toast.makeText(getContext(), "Error al cargar ligas: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+//                });
+//    }
+//
+//    private void actualizarVistaLigas() {
+//        llListaLigas.removeAllViews(); // Limpiar el layout antes de agregar nuevas ligas
+//
+//        if (ligas.isEmpty()) {
+//            tvLigasCreadas.setText("Todavía no participas en ninguna liga");
+//        } else {
+//            tvLigasCreadas.setText("Participas en " + ligas.size() + " ligas");
+//
+//            for (String liga : ligas) {
+//                TextView textView = new TextView(getContext());
+//                textView.setText(liga);
+//                textView.setPadding(16, 16, 16, 16);
+//                textView.setTextSize(16);
+//                textView.setBackgroundResource(R.drawable.borde_item_liga); // Opcional: fondo personalizado
+//                llListaLigas.addView(textView);
+//            }
+//        }
+//    }
 
 
 }

@@ -49,6 +49,7 @@ dependencies {
     implementation("androidx.navigation:navigation-ui-ktx:2.5.3")
     implementation(libs.firebase.firestore)
     implementation(libs.firebase.database)
+    implementation(libs.impress)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

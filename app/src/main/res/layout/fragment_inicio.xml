@@ -7,50 +7,6 @@
     tools:context=".InicioFragment"
     android:background="@color/blanco">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <LinearLayout
-                android:id="@+id/llListaLigas"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" />
-        </ScrollView>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="14dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginRight="14dp"
-            android:background="@color/gris"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btnCrearLiga"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="20dp"
-                android:layout_weight="1"
-                android:backgroundTint="@color/rojo"
-                android:text="Crear Liga"
-                android:textStyle="bold"
-                app:cornerRadius="8dp" />
-
-            <TextView
-                android:id="@+id/tvLigasCreadas"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:paddingLeft="4dp"
-                android:text="Todavía no participas en ninguna liga" />
-        </LinearLayout>
-    </LinearLayout>
 
 </FrameLayout>

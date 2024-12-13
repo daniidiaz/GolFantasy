@@ -101,7 +101,7 @@ public class CreacionDeLigaFantasy extends AppCompatActivity implements View.OnC
                                 intent.putExtra("nombreLiga", nombreLiga); // También puedes pasar el nombre de la liga
                                 startActivity(intent);
 
-                                finish(); // Cierra esta actividad para que no esté en la pila de actividades
+                               // finish(); // Cierra esta actividad para que no esté en la pila de actividades
                             })
                             .addOnFailureListener(e -> {
                                 Toast.makeText(CreacionDeLigaFantasy.this, "Error al actualizar usuario: " + e.getMessage(), Toast.LENGTH_SHORT).show();

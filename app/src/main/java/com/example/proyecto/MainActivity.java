@@ -18,6 +18,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private EditText etUsuario;
@@ -86,13 +88,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 String contraseniaGuardada = document.getString("contraseña");
 
                                 if (contrasenia.equals(contraseniaGuardada)) {
-                                    //Si la contraseña coincide
+                                    // Si la contraseña coincide
                                     String usuarioId = document.getId(); // Obtén el ID del documento
 
-                                    //Navegar a la siguiente pantalla
-                                    Intent intent = new Intent(MainActivity.this, ElegirCrearOUnirseLiga.class);
-                                    intent.putExtra("usuarioId", usuarioId); // Pasar el usuarioId por el Intent
-                                    startActivity(intent);
+                                    // Verificar los arrays ligasCreadas y ligasUnidas
+                                    verificarLigas(document, usuarioId);
                                 } else {
                                     // Si la contraseña no coincide
                                     Toast.makeText(MainActivity.this, "La contraseña no es correcta", Toast.LENGTH_SHORT).show();
@@ -104,5 +104,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Toast.makeText(MainActivity.this, "Error al acceder a la base de datos", Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    private void verificarLigas(QueryDocumentSnapshot document, String usuarioId) {
+        // Obtener los arrays de ligas creadas y unidas
+        List<String> ligasCreadas = (List<String>) document.get("ligasCreadas");
+        List<String> ligasUnidas = (List<String>) document.get("ligasUnidas");
+
+        // Si ambos arrays están vacíos, ir a ElegirCrearOUnirseLiga
+        if ((ligasCreadas == null || ligasCreadas.isEmpty()) && (ligasUnidas == null || ligasUnidas.isEmpty())) {
+            Intent intent = new Intent(MainActivity.this, ElegirCrearOUnirseLiga.class);
+            intent.putExtra("usuarioId", usuarioId);
+            startActivity(intent);
+        } else {
+            // Si los arrays no están vacíos, ir a PaginaJuegoPrincipal
+            Intent intent = new Intent(MainActivity.this, PantallaJuegoPrincipal.class);
+            intent.putExtra("usuarioId", usuarioId);
+            startActivity(intent);
+        }
     }
 }

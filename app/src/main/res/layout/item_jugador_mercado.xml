@@ -1,35 +1,44 @@
-<?xml version="1.0" encoding="utf-8"?>
+<!-- item_jugador_mercado.xml -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:padding="8dp"
-    android:background="?android:attr/selectableItemBackground">
+    android:gravity="center_vertical">
 
-    <!-- Imagen del jugador -->
+    <!-- ImageView para mostrar la imagen del jugador -->
     <ImageView
         android:id="@+id/imagenJugador"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginEnd="8dp"
-        android:scaleType="centerCrop"/>
+        android:src="@drawable/jugador" /> <!-- Imagen predeterminada en caso de que no haya URL -->
 
     <!-- Nombre del jugador -->
     <TextView
         android:id="@+id/nombreJugador"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Nombre del Jugador"
-        android:textSize="16sp"
-        android:gravity="center_vertical"
-        android:paddingEnd="8dp" />
-
-    <!-- Botón Puja -->
-    <Button
-        android:id="@+id/btnPuja"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Puja"
-        android:textAllCaps="false" />
+        android:text="Nombre" />
+
+    <!-- Equipo del jugador -->
+    <TextView
+        android:id="@+id/equipoJugador"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Equipo" />
+
+    <!-- Precio del jugador -->
+    <TextView
+        android:id="@+id/precioJugador"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Precio" />
+
+    <!-- Posición del jugador -->
+    <TextView
+        android:id="@+id/posicionJugador"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Posición" />
 </LinearLayout>

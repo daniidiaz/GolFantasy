@@ -1,12 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".InicioFragment"
+    android:orientation="vertical"
+    android:padding="16dp"
     android:background="@color/blanco">
 
+    <!-- Botón para crear una nueva liga -->
+    <Button
+        android:id="@+id/btnCrearLiga"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Crear Liga"
+        android:textColor="@color/blanco"
+        android:background="@color/verde_sec"
+        android:padding="12dp"
+        android:layout_marginBottom="16dp" />
 
+    <!-- Texto informativo sobre las ligas -->
+    <TextView
+        android:id="@+id/tvLigasCreadas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cargando ligas..."
+        android:textSize="18sp"
+        android:textColor="@color/negro"
+        android:layout_marginBottom="8dp" />
 
-</FrameLayout>
+    <!-- Contenedor dinámico para las ligas -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:id="@+id/llListaLigas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+
+    </ScrollView>
+
+</LinearLayout>

@@ -46,6 +46,7 @@ public class PantallaJuegoPrincipal extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         drawerLayout = findViewById(R.id.drawer_layout);
+
         ImageButton btDesplegableInicio = findViewById(R.id.btDesplegableInicio);
         Button btnCrearLiga = findViewById(R.id.btnCrearLiga);
         Button btnUnirseLiga = findViewById(R.id.btnUnirseLiga);
@@ -55,12 +56,12 @@ public class PantallaJuegoPrincipal extends AppCompatActivity {
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-        btDesplegableInicio.setOnClickListener(new View.OnClickListener() { // Usa android.view.View
-            @Override
-            public void onClick(View v) {
-                drawerLayout.openDrawer(GravityCompat.START);
-            }
-        });
+        //btDesplegableInicio.setOnClickListener(new View.OnClickListener() { // Usa android.view.View
+          //  @Override
+          //  public void onClick(View v) {
+          //      drawerLayout.openDrawer(GravityCompat.START);
+          //  }
+      //  });
 
         btnCrearLiga.setOnClickListener(new View.OnClickListener() { // Usa android.view.View
             @Override

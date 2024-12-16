@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="start"
+    android:fitsSystemWindows="true"
+    android:background="@color/verde_sec"
     android:orientation="vertical"
     android:weightSum="10">
 
@@ -20,7 +22,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:paddingLeft="4dp"
-            android:text="¿Quieres crear una liga?" />
+            android:text="¿Quieres crear una liga?"
+            android:textColor="@color/blanco"
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/btnCrearLiga"
@@ -47,7 +51,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:paddingLeft="4dp"
-            android:text="¿Quieres unirte a una liga ?" />
+            android:text="¿Quieres unirte a una liga ?"
+            android:textColor="@color/blanco"
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/btnUnirseLiga"
@@ -66,7 +72,10 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:text="Tus ligas:" />
+        android:text="Tus ligas:"
+        android:textAlignment="center"
+        android:textColor="@color/blanco"
+        android:textSize="30sp" />
 
     <ScrollView
         android:layout_width="match_parent"

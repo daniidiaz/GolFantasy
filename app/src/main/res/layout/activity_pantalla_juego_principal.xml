@@ -58,6 +58,7 @@
             android:id="@+id/bottomNavigationView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fitsSystemWindows="true"
             android:background="@color/verde_sec"
             app:menu="@menu/boton_nav_menu" />
 

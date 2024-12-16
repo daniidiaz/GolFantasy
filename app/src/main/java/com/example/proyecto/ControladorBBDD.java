@@ -1,5 +1,6 @@
 package com.example.proyecto;
 
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -116,14 +117,45 @@ public class ControladorBBDD {
         db.collection("ligas")
                 .add(liga)
                 .addOnSuccessListener(documentReference -> {
-                    // Actualizar el documento con su ID generado automáticamente
-                    documentReference.update("idLiga", documentReference.getId(),
+                    String idLiga = documentReference.getId();
+
+                    // Actualizar el documento de la liga con su ID y añadir el creador como miembro
+                    documentReference.update("idLiga", idLiga,
                                     "miembros", FieldValue.arrayUnion(idUsuarioCreador))
-                            .addOnSuccessListener(aVoid -> callback.onSuccess(documentReference.getId()))
+                            .addOnSuccessListener(aVoid -> {
+                                // Añadir el ID de la liga al campo `ligasCreadas` del usuario
+                                db.collection("usuarios")
+                                        .document(idUsuarioCreador)
+                                        .update("ligasCreadas", FieldValue.arrayUnion(idLiga))
+                                        .addOnSuccessListener(aVoid2 -> {
+                                            // Ahora actualizar todos los jugadores con el nuevo propietario
+                                            actualizarJugadoresConLiga(idLiga, callback);
+                                        })
+                                        .addOnFailureListener(callback::onError);
+                            })
                             .addOnFailureListener(callback::onError);
                 })
                 .addOnFailureListener(callback::onError);
     }
+
+    private void actualizarJugadoresConLiga(String idLiga, CrearLigaCallback callback) {
+        // Obtener todos los jugadores
+        db.collection("jugadores").get()
+                .addOnSuccessListener(querySnapshot -> {
+                    for (DocumentSnapshot document : querySnapshot.getDocuments()) {
+                        // Actualizar el mapa 'propietarios' con el ID de la nueva liga
+                        document.getReference()
+                                .update("propietarios." + idLiga, null) // Asigna null al valor inicial del propietario
+                                .addOnFailureListener(e -> {
+                                    // Manejar el error individualmente si algún jugador falla
+                                    e.printStackTrace();
+                                });
+                    }
+                    callback.onSuccess(idLiga);
+                })
+                .addOnFailureListener(callback::onError);
+    }
+
 
     // Callback para la operación de unirse a una liga
     public interface UnirseLigaCallback {

@@ -27,10 +27,11 @@
         android:textColor="@color/negro"
         android:layout_marginBottom="8dp" />
 
-    <!-- Contenedor dinámico para las ligas -->
+    <!-- Scroll de las ligas -->
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:fillViewport="true">
 
         <LinearLayout
@@ -39,6 +40,32 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" />
 
+    </ScrollView>
+
+    <!-- Texto informativo sobre las jornadas -->
+    <TextView
+        android:id="@+id/tvProximasJornadas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Próximas jornadas"
+        android:textSize="18sp"
+        android:textColor="@color/negro"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Scroll de las jornadas -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true"
+        android:gravity="center_horizontal">
+
+        <LinearLayout
+            android:id="@+id/llListaJornadas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
     </ScrollView>
 
 </LinearLayout>

@@ -1,44 +1,47 @@
-<!-- item_jugador_mercado.xml -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="8dp"
-    android:gravity="center_vertical">
+    android:padding="8dp">
 
-    <!-- ImageView para mostrar la imagen del jugador -->
     <ImageView
-        android:id="@+id/imagenJugador"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="8dp"
-        android:src="@drawable/jugador" /> <!-- Imagen predeterminada en caso de que no haya URL -->
+        android:id="@+id/imageViewJugador"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:scaleType="centerCrop" />
 
-    <!-- Nombre del jugador -->
-    <TextView
-        android:id="@+id/nombreJugador"
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp">
+
+        <TextView
+            android:id="@+id/textViewNombre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nombre"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textViewPuntuacion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Puntuación" />
+
+        <TextView
+            android:id="@+id/textViewPrecio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Precio" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/buttonFichar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Nombre" />
-
-    <!-- Equipo del jugador -->
-    <TextView
-        android:id="@+id/equipoJugador"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Equipo" />
-
-    <!-- Precio del jugador -->
-    <TextView
-        android:id="@+id/precioJugador"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Precio" />
-
-    <!-- Posición del jugador -->
-    <TextView
-        android:id="@+id/posicionJugador"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Posición" />
+        android:text="Fichar" />
 </LinearLayout>

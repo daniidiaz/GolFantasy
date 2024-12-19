@@ -184,12 +184,17 @@ public class InicioFragment extends Fragment {
                         if (documentSnapshot.exists()) {
                             String urlEscudo = documentSnapshot.getString("escudo");
                             if (urlEscudo != null) {
-                                // Cargar imagen con Glide
-                                Glide.with(getContext())
-                                        .load(urlEscudo)
-                                        .placeholder(R.drawable.placeholder) // Imagen por defecto mientras carga
-                                        .error(R.drawable.error_image) // Imagen en caso de error
-                                        .into(imageView);
+                                // Verificar que el fragmento está agregado antes de cargar la imagen
+                                if (isAdded() && getContext() != null) {
+                                    Glide.with(getContext())
+                                            .load(urlEscudo)
+                                            .placeholder(R.drawable.placeholder) // Imagen por defecto mientras carga
+                                            .error(R.drawable.error_image) // Imagen en caso de error
+                                            .into(imageView);
+                                } else {
+                                    // Si el fragmento no está agregado, podemos manejarlo (por ejemplo, mostrar un error)
+                                    imageView.setImageResource(R.drawable.error_image);
+                                }
                             } else {
                                 imageView.setImageResource(R.drawable.error_image);
                             }
@@ -203,6 +208,7 @@ public class InicioFragment extends Fragment {
             imageView.setImageResource(R.drawable.error_image);
         }
     }
+
 
 
     // Interfaz para obtener el nombre del equipo de manera asíncrona

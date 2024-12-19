@@ -1,35 +1,34 @@
 package com.example.proyecto;
 
+import com.google.firebase.firestore.DocumentReference;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
 public class Jugador {
-    private int idJugador; // ID único del jugador
+    private String idJugador; // ID único del jugador
     private String nombre; // Nombre completo del jugador
     private int puntuacion; // Puntuación acumulada del jugador
     private int precio; // Precio del jugador
     private DisponibilidadJugador disponibilidad; // Disponibilidad del jugador (enum o clase)
     private Posicion posicion; // Posición del jugador (enum o clase)
-    private EquipoLaLiga equipo; // Equipo al que pertenece
-    private Usuario propietario; // Usuario propietario del jugador (fantasy)
+    private DocumentReference equipo; // Equipo al que pertenece
     private int edad; // Edad del jugador
     private String nacionalidad; // Nacionalidad del jugador
     private double mediaPuntuacion; // Media de puntuación en la temporada
     private String imagenUrl; // URL de la imagen del jugador
-    private ArrayList<Partido> partidosJugados; // Lista de partidos jugados
-    private ArrayList<Partido> partidosPendientes; // Lista de partidos pendientes
+    private int partidosJugados;
+    private int goles;
+    private int asistencias;
+    private int tarjetasAmarillas;
+    private int tarjetasRojas;
 
     // Constructor vacío
     public Jugador() {
     }
 
     // Constructor con parámetros
-    public Jugador(int idJugador, String nombre, int puntuacion, int precio,
-                   DisponibilidadJugador disponibilidad, Posicion posicion,
-                   EquipoLaLiga equipo, Usuario propietario, int edad,
-                   String nacionalidad, double mediaPuntuacion, String imagenUrl,
-                   ArrayList<Partido> partidosJugados, ArrayList<Partido> partidosPendientes) {
+    public Jugador(String idJugador, String nombre, int puntuacion, int precio, DisponibilidadJugador disponibilidad, Posicion posicion, DocumentReference  equipo, int edad, String nacionalidad, double mediaPuntuacion, String imagenUrl, int partidosJugados, int goles, int asistencias, int tarjetasAmarillas, int tarjetasRojas) {
         this.idJugador = idJugador;
         this.nombre = nombre;
         this.puntuacion = puntuacion;
@@ -37,21 +36,24 @@ public class Jugador {
         this.disponibilidad = disponibilidad;
         this.posicion = posicion;
         this.equipo = equipo;
-        this.propietario = propietario;
         this.edad = edad;
         this.nacionalidad = nacionalidad;
         this.mediaPuntuacion = mediaPuntuacion;
         this.imagenUrl = imagenUrl;
         this.partidosJugados = partidosJugados;
-        this.partidosPendientes = partidosPendientes;
+        this.goles = goles;
+        this.asistencias = asistencias;
+        this.tarjetasAmarillas = tarjetasAmarillas;
+        this.tarjetasRojas = tarjetasRojas;
     }
 
-    // Getters y setters
-    public int getIdJugador() {
+
+    //getter y setter
+    public String getIdJugador() {
         return idJugador;
     }
 
-    public void setIdJugador(int idJugador) {
+    public void setIdJugador(String idJugador) {
         this.idJugador = idJugador;
     }
 
@@ -95,20 +97,12 @@ public class Jugador {
         this.posicion = posicion;
     }
 
-    public EquipoLaLiga getEquipo() {
+    public DocumentReference  getEquipo() {
         return equipo;
     }
 
-    public void setEquipo(EquipoLaLiga equipo) {
+    public void setEquipo(DocumentReference  equipo) {
         this.equipo = equipo;
-    }
-
-    public Usuario getPropietario() {
-        return propietario;
-    }
-
-    public void setPropietario(Usuario propietario) {
-        this.propietario = propietario;
     }
 
     public int getEdad() {
@@ -143,19 +137,43 @@ public class Jugador {
         this.imagenUrl = imagenUrl;
     }
 
-    public ArrayList<Partido> getPartidosJugados() {
+    public int getPartidosJugados() {
         return partidosJugados;
     }
 
-    public void setPartidosJugados(ArrayList<Partido> partidosJugados) {
+    public void setPartidosJugados(int partidosJugados) {
         this.partidosJugados = partidosJugados;
     }
 
-    public ArrayList<Partido> getPartidosPendientes() {
-        return partidosPendientes;
+    public int getGoles() {
+        return goles;
     }
 
-    public void setPartidosPendientes(ArrayList<Partido> partidosPendientes) {
-        this.partidosPendientes = partidosPendientes;
+    public void setGoles(int goles) {
+        this.goles = goles;
+    }
+
+    public int getAsistencias() {
+        return asistencias;
+    }
+
+    public void setAsistencias(int asistencias) {
+        this.asistencias = asistencias;
+    }
+
+    public int getTarjetasAmarillas() {
+        return tarjetasAmarillas;
+    }
+
+    public void setTarjetasAmarillas(int tarjetasAmarillas) {
+        this.tarjetasAmarillas = tarjetasAmarillas;
+    }
+
+    public int getTarjetasRojas() {
+        return tarjetasRojas;
+    }
+
+    public void setTarjetasRojas(int tarjetasRojas) {
+        this.tarjetasRojas = tarjetasRojas;
     }
 }

@@ -1,15 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MercadoFragment">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Lista de jugadores -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewMercado"
+    <!-- Barra de búsqueda -->
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/searchViewJugadores"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="8dp"
-        tools:listitem="@layout/item_jugador_mercado" />
+        android:layout_height="wrap_content"
+        android:queryHint="Buscar jugadores..." />
+
+        <!-- LinearLayout para contener el RecyclerView -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- RecyclerView para la lista de jugadores -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewJugadores"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                tools:listitem="@layout/item_jugador_mercado" />
+        </LinearLayout>
+
 </FrameLayout>

@@ -87,8 +87,8 @@ public class PantallaJuegoPrincipal extends AppCompatActivity {
                 remplazarFragment(new ClasificacionFragment(), idUsuario);
             } else if (item.getItemId() == R.id.equipo) {
                 remplazarFragment(new EquipoFragment(), idUsuario);
-//            } else if (item.getItemId() == R.id.mercado) {
-//                remplazarFragment(new MercadoFragment(), idUsuario);
+            } else if (item.getItemId() == R.id.mercado) {
+              remplazarFragment(new MercadoFragment(), idUsuario);
             } else if (item.getItemId() == R.id.noticias) {
                 remplazarFragment(new NoticiasFragment(), idUsuario);
             }

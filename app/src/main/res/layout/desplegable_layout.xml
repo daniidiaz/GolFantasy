@@ -7,86 +7,52 @@
     android:layout_gravity="start"
     android:fitsSystemWindows="true"
     android:background="@color/verde_sec"
-    android:orientation="vertical"
-    android:weightSum="10">
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/tvCrearLiga"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:paddingLeft="4dp"
-            android:text="¿Quieres crear una liga?"
-            android:textColor="@color/blanco"
-            android:textSize="20sp" />
 
-        <Button
-            android:id="@+id/btnCrearLiga"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"
-            android:layout_weight="1"
-            android:backgroundTint="@color/rojo"
-            android:text="Crear liga"
-            android:textStyle="bold"
-            app:cornerRadius="8dp" />
-    </LinearLayout>
+    <!-- Nombre del usuario -->
+    <TextView
+        android:id="@+id/tvNombreUsuario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="8dp"
+        android:text="Nombre de usuario"
+        android:textColor="@color/blanco"
+        android:textSize="20sp" />
 
-    <LinearLayout
-
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/tvUnirseLiga"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:paddingLeft="4dp"
-            android:text="¿Quieres unirte a una liga ?"
-            android:textColor="@color/blanco"
-            android:textSize="20sp" />
-
-        <Button
-            android:id="@+id/btnUnirseLiga"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"
-            android:layout_weight="1"
-            android:backgroundTint="@color/rojo"
-            android:text="Unirse a liga"
-            android:textStyle="bold"
-            app:cornerRadius="8dp" />
-    </LinearLayout>
+    <!-- Correo electrónico del usuario -->
+    <TextView
+        android:id="@+id/tvCorreoElectronico"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="4dp"
+        android:text="correo@ejemplo.com"
+        android:textColor="@color/blanco"
+        android:textSize="16sp" />
 
     <TextView
-        android:id="@+id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:text="Tus ligas:"
-        android:textAlignment="center"
+        android:id="@+id/tvPuntuacion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="4dp"
+        android:text="Puntuación: 0"
         android:textColor="@color/blanco"
-        android:textSize="30sp" />
+        android:textSize="16sp" />
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="7">
+    <!-- Equipo del usuario -->
+    <TextView
+        android:id="@+id/tvEquipo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="4dp"
+        android:text="Equipo: -"
+        android:textColor="@color/blanco"
+        android:textSize="16sp" />
 
-        <LinearLayout
-            android:id="@+id/llListaLigas"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
-    </ScrollView>
 
 </LinearLayout>

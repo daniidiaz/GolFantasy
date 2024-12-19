@@ -54,9 +54,7 @@ public class PantallaJuegoPrincipal extends AppCompatActivity {
 
         drawerLayout = findViewById(R.id.drawer_layout);
 
-        //ImageButton btDesplegableInicio = findViewById(R.id.btDesplegableInicio);
-        Button btnCrearLiga = findViewById(R.id.btnCrearLiga);
-        Button btnUnirseLiga = findViewById(R.id.btnUnirseLiga);
+
 
         // Configura el ActionBarDrawerToggle
         toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbarInicio, R.string.navigation_drawer_open, R.string.navigation_drawer_close);

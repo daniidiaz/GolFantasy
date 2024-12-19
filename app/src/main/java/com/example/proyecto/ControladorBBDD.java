@@ -70,11 +70,12 @@ public class ControladorBBDD {
         private void crearNuevoUsuario(Usuario usuario, CrearUsuarioCallback callback) {
             Map<String, Object> temp = new HashMap<>();
             temp.put("nombreUsuario", usuario.getNombreUsuario());
-            temp.put("contraseña", usuario.getContrasenia());
+            temp.put("contrasenia", usuario.getContrasenia());
             temp.put("telefono", usuario.getTelefono());
             temp.put("correo", usuario.getCorreo());
-            temp.put("ligasCreadas", new ArrayList<>());
-            temp.put("ligasUnidas", new ArrayList<>());
+            temp.put("puntuacion", usuario.getPuntuacion());
+           // temp.put("ligasCreadas", new ArrayList<>());
+           // temp.put("ligasUnidas", new ArrayList<>());
 
             db.collection("usuarios").add(temp)
                     .addOnSuccessListener(documentReference -> {
@@ -93,7 +94,7 @@ public class ControladorBBDD {
         db.collection("equiposDeUsuario").add(equipoDeUsuario);
     }
 
-    public interface CrearLigaCallback {
+    /*public interface CrearLigaCallback {
         void onSuccess(String idLiga);
         void onError(Exception e);
     }
@@ -139,9 +140,9 @@ public class ControladorBBDD {
                             .addOnFailureListener(callback::onError);
                 })
                 .addOnFailureListener(callback::onError);
-    }
+    }*/
 
-    private void actualizarJugadoresConLiga(String idLiga, CrearLigaCallback callback) {
+   /* private void actualizarJugadoresConLiga(String idLiga, CrearLigaCallback callback) {
         // Obtener todos los jugadores
         db.collection("jugadores").get()
                 .addOnSuccessListener(querySnapshot -> {
@@ -185,10 +186,10 @@ public class ControladorBBDD {
                     }
                 })
                 .addOnFailureListener(callback::onError);
-    }
+    }*/
 
 
-    private void crearEquipos() {
+   /* private void crearEquipos() {
         Map<String, Object> equipoA = new HashMap<>();
         equipoA.put("nombre", "Equipo A");
         equipoA.put("usuario", "usuario1");
@@ -197,7 +198,7 @@ public class ControladorBBDD {
         equipoA.put("puntosTotales", 0);
 
         db.collection("equipos").document("equipoA").set(equipoA);
-    }
+    }*/
 
     private void crearJugadores() {
         Map<String, Object> jugador1 = new HashMap<>();
@@ -210,13 +211,13 @@ public class ControladorBBDD {
         db.collection("jugadores").document("jugador1").set(jugador1);
     }
 
-    private void crearMembresias() {
+    /*private void crearMembresias() {
         db.collection("ligas").document("liga1").collection("miembros").document("membresia1").set(new HashMap<String, Object>() {{
             put("usuario", "usuario1");
             put("rol", "admin");
         }});
 
-    }
+    }*/
 
     // ... otros métodos de ControladorBBDD ...
 }

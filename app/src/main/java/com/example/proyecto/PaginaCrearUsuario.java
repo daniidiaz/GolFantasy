@@ -21,15 +21,10 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.HashMap;
-import java.util.Map;
-
 public class PaginaCrearUsuario extends AppCompatActivity implements View.OnClickListener {
     private Spinner spinnerEquipos;
     private EditText editTextContrasenia;
-    private ImageButton btnVerContraseña;
+    private ImageButton btnVerContrasenia;
     private boolean isPasswordVisible = false;
     private Toolbar toolbar;
     private Button btnCrearCuenta;
@@ -57,8 +52,8 @@ public class PaginaCrearUsuario extends AppCompatActivity implements View.OnClic
 
         db = new ControladorBBDD();// Inicializa Firestore
 
-        btnVerContraseña = findViewById(R.id.btnVerContraseña);
-        btnVerContraseña.setOnClickListener(this);
+        btnVerContrasenia = findViewById(R.id.btnVerContrasenia);
+        btnVerContrasenia.setOnClickListener(this);
         btnCrearCuenta=findViewById(R.id.btnCrearCuenta);
         btnCrearCuenta.setOnClickListener(this);
         etNombreUsuario = findViewById(R.id.etCrearNombre);
@@ -148,15 +143,15 @@ public class PaginaCrearUsuario extends AppCompatActivity implements View.OnClic
     @Override
     public void onClick(View view) {
 
-        if (view.getId()==R.id.btnVerContraseña){
+        if (view.getId()==R.id.btnVerContrasenia){
             if (isPasswordVisible) {
                 // Cambiar a contraseña oculta
                 editTextContrasenia.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                btnVerContraseña.setImageResource(R.drawable.baseline_visibility_off_24); // Cambia a ojo cerrado
+                btnVerContrasenia.setImageResource(R.drawable.baseline_visibility_off_24); // Cambia a ojo cerrado
             } else {
                 // Cambiar a contraseña visible
                 editTextContrasenia.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-                btnVerContraseña.setImageResource(R.drawable.baseline_remove_red_eye_24); // Cambia a ojo abierto
+                btnVerContrasenia.setImageResource(R.drawable.baseline_remove_red_eye_24); // Cambia a ojo abierto
             }
             isPasswordVisible = !isPasswordVisible; // Alternar el estado
             // Mover el cursor al final del texto

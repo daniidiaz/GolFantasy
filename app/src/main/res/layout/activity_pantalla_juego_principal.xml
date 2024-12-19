@@ -25,6 +25,7 @@
             android:clickable="true"
             android:focusable="true"
             android:longClickable="true"
+            android:title=""
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
             <ImageButton
@@ -34,15 +35,6 @@
                 android:layout_gravity="center"
                 android:background="?android:attr/selectableItemBackgroundBorderless"
                 android:src="@drawable/logo_xhdpi" />
-
-            <!-- Botón para abrir el drawer (icono de hamburguesa) -->
-            <ImageButton
-                android:id="@+id/btDesplegableInicio"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
-                android:src="@android:drawable/ic_menu_sort_by_size" />
 
         </androidx.appcompat.widget.Toolbar>
 

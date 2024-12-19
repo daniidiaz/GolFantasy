@@ -85,14 +85,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         } else {
                             // Si se encuentra un documento, verificamos la contraseña
                             for (QueryDocumentSnapshot document : querySnapshot) {
-                                String contraseniaGuardada = document.getString("contraseña");
+                                String contraseniaGuardada = document.getString("contrasenia");
 
                                 if (contrasenia.equals(contraseniaGuardada)) {
                                     // Si la contraseña coincide
                                     String usuarioId = document.getId(); // Obtén el ID del documento
+                                    Intent intent = new Intent(MainActivity.this, PantallaJuegoPrincipal.class);
+                                    intent.putExtra("usuarioId", usuarioId);
+                                    startActivity(intent);
 
                                     // Verificar los arrays ligasCreadas y ligasUnidas
-                                    verificarLigas(document, usuarioId);
+                                  //  verificarLigas(document, usuarioId);
                                 } else {
                                     // Si la contraseña no coincide
                                     Toast.makeText(MainActivity.this, "La contraseña no es correcta", Toast.LENGTH_SHORT).show();
@@ -106,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 });
     }
 
-    private void verificarLigas(QueryDocumentSnapshot document, String usuarioId) {
+    /*private void verificarLigas(QueryDocumentSnapshot document, String usuarioId) {
         // Obtener los arrays de ligas creadas y unidas
         List<String> ligasCreadas = (List<String>) document.get("ligasCreadas");
         List<String> ligasUnidas = (List<String>) document.get("ligasUnidas");
@@ -122,5 +125,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             intent.putExtra("usuarioId", usuarioId);
             startActivity(intent);
         }
-    }
+    }*/
 }

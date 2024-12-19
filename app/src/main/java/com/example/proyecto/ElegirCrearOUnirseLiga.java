@@ -1,4 +1,4 @@
-package com.example.proyecto;
+/*package com.example.proyecto;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -73,4 +73,4 @@ public class ElegirCrearOUnirseLiga extends AppCompatActivity implements View.On
         }
         return super.onOptionsItemSelected(item);
     }
-}
+}*/

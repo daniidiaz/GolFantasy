@@ -11,12 +11,11 @@ public class Usuario {
     private String nombreUsuario;
     private String contrasenia;
     private String correo;
-
-
     private String telefono;
+    private int puntuacion;
     private String equipoFavorito;
-    private ArrayList<String> ligasCreadas;
-    private ArrayList<String> ligasUnidas;
+   // private ArrayList<String> ligasCreadas;
+   // private ArrayList<String> ligasUnidas;
 
     public Usuario(String nombreUsuario, String contrasenia, String correo, String telefono, String equipoFavorito) {
         this.nombreUsuario = nombreUsuario;
@@ -24,8 +23,9 @@ public class Usuario {
         this.correo = correo;
         this.telefono = telefono;
         this.equipoFavorito = equipoFavorito;
-        this.ligasCreadas = new ArrayList<>();
-        this.ligasUnidas = new ArrayList<>();
+        this.puntuacion = 0;
+      //  this.ligasCreadas = new ArrayList<>();
+       // this.ligasUnidas = new ArrayList<>();
     }
 
     public int getIdUsuario() {
@@ -59,8 +59,15 @@ public class Usuario {
     public void setCorreo(String correo) {
         this.correo = correo;
     }
+    public int getPuntuacion() {
+        return puntuacion;
+    }
 
-    public ArrayList<String> getLigasCreadas() {
+    public void setPuntuacion(int puntuacion) {
+        this.puntuacion = puntuacion;
+    }
+
+   /* public ArrayList<String> getLigasCreadas() {
         return ligasCreadas;
     }
 
@@ -74,7 +81,7 @@ public class Usuario {
 
     public void setLigasUnidas(ArrayList<String> ligasUnidas) {
         this.ligasUnidas = ligasUnidas;
-    }
+    }*/
 
     public String getTelefono() {
         return telefono;

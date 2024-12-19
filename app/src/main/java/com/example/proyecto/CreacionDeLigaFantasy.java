@@ -86,7 +86,7 @@ public class CreacionDeLigaFantasy extends AppCompatActivity implements View.OnC
             ControladorBBDD controladorBBDD = new ControladorBBDD();
 
             // Llamar al método para crear la liga
-            controladorBBDD.crearLigas(nombreLiga, usuarioId, new ControladorBBDD.CrearLigaCallback() {
+         /*   controladorBBDD.crearLigas(nombreLiga, usuarioId, new ControladorBBDD.CrearLigaCallback() {
                 @Override
                 public void onSuccess(String idLiga) {
                     Toast.makeText(CreacionDeLigaFantasy.this, "Liga creada con ID: " + idLiga, Toast.LENGTH_SHORT).show();
@@ -112,7 +112,7 @@ public class CreacionDeLigaFantasy extends AppCompatActivity implements View.OnC
                 public void onError(Exception e) {
                     Toast.makeText(CreacionDeLigaFantasy.this, "Error al crear la liga: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
-            });
+            });*/
         }
     }
 

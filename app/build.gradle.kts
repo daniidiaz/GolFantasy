@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.example.proyecto"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.proyecto"
@@ -50,6 +50,9 @@ dependencies {
     implementation(libs.firebase.firestore)
     implementation(libs.firebase.database)
     implementation(libs.impress)
+    implementation(libs.contentpager)
+    implementation(libs.media3.common)
+    implementation(libs.foundation.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

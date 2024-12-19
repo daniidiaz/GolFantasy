@@ -1,62 +1,71 @@
 package com.example.proyecto;
 
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 public class ClasificacionFragment extends Fragment {
 
-    // ... (Existing code: newInstance, onCreate, etc.) ...
-
+    private static final String TAG = "ClasificacionFragment";
     private TableLayout tableLayout;
+    private FirebaseFirestore db;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_clasificacion, container, false);
-        tableLayout = view.findViewById(R.id.tableLayout); // Assuming you have this ID in your layout
+        tableLayout = view.findViewById(R.id.tableLayout);
+        db = FirebaseFirestore.getInstance();
         return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        addRowsToTable();
+        cargarClasificacion();
     }
 
-    private void addRowsToTable() {
-        List<List<String>> data = getTableData();
+    private void cargarClasificacion() {
+        db.collection("usuarios") // Reemplaza "usuarios" con el nombre de tu colección
+                .orderBy("puntuacion", Query.Direction.DESCENDING)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        int posicion = 1;
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            String nombreUsuario = document.getString("nombreUsuario");
+                            long puntuacion = document.getLong("puntuacion");
 
-        for (List<String> rowData : data) {
-            TableRow tableRow = new TableRow(requireContext());
+                            TableRow tableRow = new TableRow(requireContext());
+                            tableRow.addView(createTextView(posicion + "º"));
+                            tableRow.addView(createTextView(nombreUsuario));
+                            tableRow.addView(createTextView(String.valueOf(puntuacion)));
+                            tableLayout.addView(tableRow);
 
-            for (String cellData : rowData) {
-                TextView textView = new TextView(requireContext());
-                textView.setText(cellData);
-                textView.setPadding(16, 16, 16, 16);
-                tableRow.addView(textView);
-            }
-
-            tableLayout.addView(tableRow);
-        }
+                            posicion++;
+                        }
+                    } else {
+                        Log.w(TAG, "Error getting documents.", task.getException());
+                    }
+                });
     }
 
-    private List<List<String>> getTableData() {
-        // Replace with your logic to fetch table data
-        List<List<String>> data = new ArrayList<>();
-        data.add(Arrays.asList("Header 1", "Header 2", "Header 3"));
-        data.add(Arrays.asList("Data 1", "Data 2", "Data 3"));
-        data.add(Arrays.asList("Data 4", "Data 5", "Data 6"));
-        // ... more rows
-        return data;
+    private TextView createTextView(String text) {
+        TextView textView = new TextView(requireContext());
+        textView.setText(text);
+        textView.setPadding(16, 16, 16, 16);
+        return textView;
     }
 }

@@ -1,16 +1,19 @@
 package com.example.proyecto;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,10 +22,13 @@ public class JugadorAdapter extends RecyclerView.Adapter<JugadorAdapter.ViewHold
 
     private List<Jugador> listaJugadores;
     private List<Jugador> listaFiltrada;
+    private String idUsuario;
 
-    public JugadorAdapter(List<Jugador> listaJugadores) {
+    public JugadorAdapter(List<Jugador> listaJugadores, String idUsuario) {
         this.listaJugadores = listaJugadores;
         this.listaFiltrada = new ArrayList<>(listaJugadores);
+        this.idUsuario = idUsuario;
+
     }
 
     @NonNull
@@ -48,8 +54,44 @@ public class JugadorAdapter extends RecyclerView.Adapter<JugadorAdapter.ViewHold
                 .into(holder.imageViewJugador);
 
         holder.buttonFichar.setOnClickListener(v -> {
-            // Acciones al pulsar el botón "Fichar"
+            int precioJugador = jugador.getPrecio();
+            ControladorBBDD controladorBBDD = new ControladorBBDD();
+            controladorBBDD.getPresupuestoDeUsuario(idUsuario, new ControladorBBDD.PresupuestoCallback() {
+                @Override
+                public void onSuccess(int presupuesto) {
+                    if (presupuesto >= precioJugador) {
+                        // Realizar la compra
+                        controladorBBDD.actualizarPresupuesto(idUsuario, presupuesto - precioJugador, new ControladorBBDD.PresupuestoActualizadoCallback() {
+                            @Override
+                            public void onPresupuestoActualizado() {
+                                // Actualizar el presupuesto en el Toolbar
+                                if (holder.itemView.getContext() instanceof PantallaJuegoPrincipal) {
+                                    ((PantallaJuegoPrincipal) holder.itemView.getContext()).actualizarPresupuestoEnToolbar(idUsuario);
+                                }
+                                // Mostrar mensaje de éxito
+                                Toast.makeText(holder.itemView.getContext(), "Jugador fichado con éxito", Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onError(Exception e) {
+                                Log.e("JugadorAdapter", "Error al actualizar presupuesto: " + e.getMessage());
+                            }
+                        });
+                    } else {
+                        // Mostrar mensaje de error
+                        Toast.makeText(holder.itemView.getContext(), "No tienes suficiente presupuesto", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onError(Exception e) {
+                    Log.e("JugadorAdapter", "Error al obtener presupuesto: " + e.getMessage());
+                }
+            });
         });
+
+
+
     }
 
     @Override
@@ -99,4 +141,7 @@ public class JugadorAdapter extends RecyclerView.Adapter<JugadorAdapter.ViewHold
     public void setListaJugadores(List<Jugador> listaJugadores) {
         this.listaJugadores = listaJugadores;
     }
+
+
+
 }

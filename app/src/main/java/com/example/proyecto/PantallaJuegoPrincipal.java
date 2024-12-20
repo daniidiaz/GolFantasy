@@ -124,4 +124,9 @@ public class PantallaJuegoPrincipal extends AppCompatActivity {
             }
         });
     }
+    public void actualizarPresupuestoEnToolbar(String usuarioId) {
+        mostrarPresupuesto(usuarioId);
+    }
+
+
 }

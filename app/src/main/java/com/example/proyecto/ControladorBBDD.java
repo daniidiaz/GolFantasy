@@ -2,6 +2,7 @@ package com.example.proyecto;
 
 import android.util.Log;
 
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -39,7 +40,7 @@ public class ControladorBBDD {
                 });
     }
 
-        public interface CrearUsuarioCallback {
+    public interface CrearUsuarioCallback {
             void onSuccess();
             void onUserExists();
             void onError(Exception e);
@@ -112,6 +113,31 @@ public class ControladorBBDD {
                     }
                 })
                 .addOnFailureListener(callback::onError);
+    }
+
+    public interface PresupuestoActualizadoCallback {
+        void onPresupuestoActualizado();
+        void onError(Exception e);
+    }
+
+    public void actualizarPresupuesto(String usuarioId, int nuevoPresupuesto, PresupuestoActualizadoCallback callback) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        // Referencia al documento del usuario en la colección "usuarios"
+        DocumentReference usuarioRef = db.collection("usuarios").document(usuarioId);
+
+        // Actualizar el campo "presupuesto" del usuario
+        usuarioRef.update("presupuesto", nuevoPresupuesto)
+                .addOnSuccessListener(aVoid -> {
+                    Log.d("ControladorBBDD", "Presupuesto actualizado correctamente para el usuario: " + usuarioId);
+                    // Llamar al callback de éxito
+                    callback.onPresupuestoActualizado();
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("ControladorBBDD", "Error al actualizar el presupuesto: ", e);
+                    // Llamar al callback de error
+                    callback.onError(e);
+                });
     }
 
 

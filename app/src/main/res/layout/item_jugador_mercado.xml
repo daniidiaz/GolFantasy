@@ -23,6 +23,7 @@
             android:id="@+id/textViewNombre"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/blanco"
             android:text="Nombre"
             android:textStyle="bold" />
 
@@ -30,12 +31,14 @@
             android:id="@+id/textViewPuntuacion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/blanco"
             android:text="Puntuación" />
 
         <TextView
             android:id="@+id/textViewPrecio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/blanco"
             android:text="Precio" />
     </LinearLayout>
 
@@ -43,5 +46,6 @@
         android:id="@+id/buttonFichar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/verde_sec"
         android:text="Fichar" />
 </LinearLayout>

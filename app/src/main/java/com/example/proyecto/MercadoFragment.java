@@ -30,6 +30,13 @@ public class MercadoFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_mercado, container, false);
+
+        // Recuperar el ID del usuario del Bundle
+        String idUsuario = null;
+        if (getArguments() != null) {
+            idUsuario = getArguments().getString("usuarioId");
+        }
+
         // Inicializar Firebase Firestore
         db = FirebaseFirestore.getInstance();
         // Inicializar vistas
@@ -40,7 +47,7 @@ public class MercadoFragment extends Fragment {
 
         // Configurar RecyclerView
         recyclerViewJugadores.setLayoutManager(new LinearLayoutManager(getContext()));
-        jugadorAdapter = new JugadorAdapter(listaJugadores);
+        jugadorAdapter = new JugadorAdapter(listaJugadores, idUsuario);
         recyclerViewJugadores.setAdapter(jugadorAdapter);
 
         // Cargar jugadores de Firebase

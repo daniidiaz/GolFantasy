@@ -17,12 +17,14 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -38,6 +40,8 @@ public class EquipoFragment extends Fragment {
 
     private LinearLayout lineaDefensas, lineaMediocentros, lineaDelanteros;
     private ImageView portero;
+
+    private String idUsuario;
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -61,29 +65,77 @@ public class EquipoFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Obtener el idUsuario de los argumentos
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
+            idUsuario = getArguments().getString("usuarioId");  // Asumiendo que el ID de usuario se pasa como 'userId'
+        }
+
+        if (idUsuario == null) {
+            Log.e("ID Usuario", "El ID del usuario no ha sido proporcionado.");
+            return;
+        }
+
         db = FirebaseFirestore.getInstance();
-        obtenerJugadoresDeFirestore();
+        obtenerJugadoresDeFirestore(idUsuario);
     }
 
-    private void obtenerJugadoresDeFirestore() {
-        db.collection("formacion") // nombre de colección en Firestore
+    private void obtenerJugadoresDeFirestore(String idUsuario) {
+        // Consulta el documento en la colección "formaciones" que coincide con el idUsuario
+        db.collection("formaciones")
+                .document(idUsuario) // Busca el documento que coincide con el idUsuario
                 .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            // Mapea el documento a un objeto Jugador
-                            Jugador jugador = document.toObject(Jugador.class);
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        // Verifica si el documento tiene un array llamado "jugadores"
+                        List<Map<String, Object>> jugadoresArray = (List<Map<String, Object>>) documentSnapshot.get("jugadores");
 
-                            // Clasifica a los jugadores según su posición
-                            agregarJugadorPorPosicion(jugador);
+                        if (jugadoresArray != null) {
+                            // Recorre cada jugador en el array
+                            for (Map<String, Object> jugadorData : jugadoresArray) {
+                                Jugador jugador = convertirAModeloJugador(jugadorData);
+                                agregarJugadorPorPosicion(jugador);  // Agregar el jugador a la lista correspondiente
+                            }
+
+                            // Una vez que se obtienen los jugadores, podemos actualizar la vista
+                            // Esto se hará cuando se seleccione una formación
+                            cambiarFormacion("4-3-3");  // Establecer una formación inicial, por ejemplo
+                        } else {
+                            Log.e("Firestore", "El array 'jugadores' no existe o está vacío.");
                         }
-                        // Actualiza la vista con los jugadores obtenidos
-                        cambiarFormacion("4-3-3"); // Cambiar por la formación inicial deseada
                     } else {
-                        Log.e("Firestore Error", "Error obteniendo documentos: ", task.getException());
+                        Log.e("Firestore", "No se encontró el documento con idUsuario: " + idUsuario);
                     }
-                });
+                })
+                .addOnFailureListener(e -> Log.e("Firestore", "Error al obtener documento", e));
     }
+
+
+    private Jugador convertirAModeloJugador(Map<String, Object> jugadorData) {
+        // Extraemos los datos del jugador del mapa
+        String idJugador = (String) jugadorData.get("idJugador");
+        String nombre = (String) jugadorData.get("nombre");
+        int puntuacion = ((Long) jugadorData.get("puntuacion")).intValue();
+        int precio = ((Long) jugadorData.get("precio")).intValue();
+        DisponibilidadJugador disponibilidad = DisponibilidadJugador.valueOf((String) jugadorData.get("disponibilidad"));
+        Posicion posicion = Posicion.valueOf((String) jugadorData.get("posicion"));
+        DocumentReference equipo = (DocumentReference) jugadorData.get("equipo");
+        int edad = ((Long) jugadorData.get("edad")).intValue();
+        String nacionalidad = (String) jugadorData.get("nacionalidad");
+        String imagenUrl = (String) jugadorData.get("imagenUrl");
+        int partidosJugados = ((Long) jugadorData.get("partidosJugados")).intValue();
+        int goles = ((Long) jugadorData.get("goles")).intValue();
+        int asistencias = ((Long) jugadorData.get("asistencias")).intValue();
+        int tarjetasAmarillas = ((Long) jugadorData.get("tarjetasAmarillas")).intValue();
+        int tarjetasRojas = ((Long) jugadorData.get("tarjetasRojas")).intValue();
+
+        // Creamos y retornamos una instancia del objeto Jugador
+        return new Jugador(idJugador, nombre, puntuacion, precio, disponibilidad, posicion, equipo, edad, nacionalidad, imagenUrl, partidosJugados, goles, asistencias, tarjetasAmarillas, tarjetasRojas);
+    }
+
+
 
     private void agregarJugadorPorPosicion(Jugador jugador) {
         switch (jugador.getPosicion().name().toLowerCase()) {
@@ -113,11 +165,12 @@ public class EquipoFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_equipo, container, false);
 
+
         Spinner formacionSpinner = view.findViewById(R.id.spinner_formacion);
         lineaDefensas = view.findViewById(R.id.linea_defensas);
         lineaMediocentros = view.findViewById(R.id.linea_mediocentros);
         lineaDelanteros = view.findViewById(R.id.linea_delanteros);
-        portero = view.findViewById(R.id.portero); // Portero fijo
+        portero = view.findViewById(R.id.portero);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(requireActivity(),R.array.formaciones, R.layout.spinner_item);
         adapter.setDropDownViewResource(R.layout.spinner_item);

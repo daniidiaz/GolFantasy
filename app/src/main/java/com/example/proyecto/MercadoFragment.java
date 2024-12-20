@@ -5,14 +5,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
-
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -26,32 +27,32 @@ public class MercadoFragment extends Fragment {
     private JugadorAdapter jugadorAdapter;
     private List<Jugador> listaJugadores = new ArrayList<>();
     private FirebaseFirestore db;
+    private String idUsuario; // Declaramos la variable idUsuario
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_mercado, container, false);
 
         // Recuperar el ID del usuario del Bundle
-        String idUsuario = null;
         if (getArguments() != null) {
             idUsuario = getArguments().getString("usuarioId");
         }
 
         // Inicializar Firebase Firestore
         db = FirebaseFirestore.getInstance();
+
         // Inicializar vistas
         recyclerViewJugadores = rootView.findViewById(R.id.recyclerViewJugadores);
         searchViewJugadores = rootView.findViewById(R.id.searchViewJugadores);
-        // Cargar jugadores de Firebase
-
 
         // Configurar RecyclerView
         recyclerViewJugadores.setLayoutManager(new LinearLayoutManager(getContext()));
-        jugadorAdapter = new JugadorAdapter(listaJugadores, idUsuario);
+        jugadorAdapter = new JugadorAdapter(listaJugadores, idUsuario, this); // Pasamos la referencia al fragmento
         recyclerViewJugadores.setAdapter(jugadorAdapter);
 
         // Cargar jugadores de Firebase
         cargarJugadoresDeFirebase();
+
         // Configurar búsqueda
         configurarBarraBusqueda();
 
@@ -78,8 +79,6 @@ public class MercadoFragment extends Fragment {
                 .addOnFailureListener(e -> Log.e("MercadoFragment", "Error al cargar jugadores", e));
     }
 
-
-
     private void configurarBarraBusqueda() {
         searchViewJugadores.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -101,7 +100,10 @@ public class MercadoFragment extends Fragment {
         int asistencias = jugador.getAsistencias();
         int amarillas = jugador.getTarjetasAmarillas();
         int rojas = jugador.getTarjetasRojas();
+        int partidosJugados = jugador.getPartidosJugados();
 
-        return (goles * 4) + (asistencias * 3) - (amarillas * 1) - (rojas * 3);
+        return (partidosJugados * 1) + (goles * 4) + (asistencias * 3) - (amarillas * 1) - (rojas * 3);
     }
+
+
 }

@@ -10,25 +10,28 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
-
 public class JugadorAdapter extends RecyclerView.Adapter<JugadorAdapter.ViewHolder> {
 
     private List<Jugador> listaJugadores;
     private List<Jugador> listaFiltrada;
     private String idUsuario;
+    private MercadoFragment mercadoFragment;
 
-    public JugadorAdapter(List<Jugador> listaJugadores, String idUsuario) {
+    public JugadorAdapter(List<Jugador> listaJugadores, String idUsuario, MercadoFragment mercadoFragment) {
         this.listaJugadores = listaJugadores;
         this.listaFiltrada = new ArrayList<>(listaJugadores);
         this.idUsuario = idUsuario;
-
+        this.mercadoFragment = mercadoFragment;
     }
 
     @NonNull
@@ -43,17 +46,16 @@ public class JugadorAdapter extends RecyclerView.Adapter<JugadorAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Jugador jugador = listaFiltrada.get(position);
 
-        // Mostrar datos del jugador
         holder.textViewNombre.setText(jugador.getNombre());
         holder.textViewPuntuacion.setText("Puntos: " + jugador.getPuntuacion());
         holder.textViewPrecio.setText("Precio: " + jugador.getPrecio());
 
-        // Cargar imagen con Glide
         Glide.with(holder.itemView.getContext())
                 .load(jugador.getImagenUrl())
                 .into(holder.imageViewJugador);
 
         holder.buttonFichar.setOnClickListener(v -> {
+            // Acciones al pulsar el botón "Fichar"
             int precioJugador = jugador.getPrecio();
             ControladorBBDD controladorBBDD = new ControladorBBDD();
             controladorBBDD.getPresupuestoDeUsuario(idUsuario, new ControladorBBDD.PresupuestoCallback() {
@@ -70,8 +72,9 @@ public class JugadorAdapter extends RecyclerView.Adapter<JugadorAdapter.ViewHold
                                 }
                                 // Mostrar mensaje de éxito
                                 Toast.makeText(holder.itemView.getContext(), "Jugador fichado con éxito", Toast.LENGTH_SHORT).show();
-                            }
 
+                                agregarJugadorAlEquipo(jugador, idUsuario, holder);
+                            }
                             @Override
                             public void onError(Exception e) {
                                 Log.e("JugadorAdapter", "Error al actualizar presupuesto: " + e.getMessage());
@@ -82,14 +85,13 @@ public class JugadorAdapter extends RecyclerView.Adapter<JugadorAdapter.ViewHold
                         Toast.makeText(holder.itemView.getContext(), "No tienes suficiente presupuesto", Toast.LENGTH_SHORT).show();
                     }
                 }
-
                 @Override
                 public void onError(Exception e) {
                     Log.e("JugadorAdapter", "Error al obtener presupuesto: " + e.getMessage());
                 }
             });
-        });
 
+        });
 
 
     }
@@ -101,14 +103,9 @@ public class JugadorAdapter extends RecyclerView.Adapter<JugadorAdapter.ViewHold
 
     public void filtrar(String texto) {
         listaFiltrada.clear();
-        if (texto.isEmpty() && listaJugadores.isEmpty()) {
-            // If search is empty and listaJugadores is empty, display nothing
-            return;
-        } else if (texto.isEmpty()) {
-            // If search is empty, display all players
+        if (texto.isEmpty()) {
             listaFiltrada.addAll(listaJugadores);
         } else {
-            // If search is not empty, filter players
             for (Jugador jugador : listaJugadores) {
                 if (jugador.getNombre().toLowerCase().contains(texto.toLowerCase())) {
                     listaFiltrada.add(jugador);
@@ -116,6 +113,51 @@ public class JugadorAdapter extends RecyclerView.Adapter<JugadorAdapter.ViewHold
             }
         }
         notifyDataSetChanged();
+    }
+
+    private void agregarJugadorAlEquipo(Jugador jugador, String idUsuario, ViewHolder holder) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        // Verificar si el documento del usuario ya existe en la colección "formaciones"
+        db.collection("formaciones").document(idUsuario)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        // Si el documento existe, agregamos el jugador al arreglo
+                        db.collection("formaciones").document(idUsuario)
+                                .update("jugadores", FieldValue.arrayUnion(jugador))
+                                .addOnSuccessListener(aVoid -> {
+                                    Toast.makeText(holder.itemView.getContext(), "Jugador fichado con éxito", Toast.LENGTH_SHORT).show();
+                                    Log.d("JugadorAdapter", "Jugador añadido correctamente a formaciones.");
+                                })
+                                .addOnFailureListener(e -> {
+                                    Log.e("JugadorAdapter", "Error al agregar jugador al equipo", e);
+                                });
+                    } else {
+                        // Si el documento no existe, lo creamos y añadimos el jugador
+                        Formacion formacion = new Formacion(idUsuario, new ArrayList<Jugador>());
+                        db.collection("formaciones").document(idUsuario)
+                                .set(formacion)
+                                .addOnSuccessListener(aVoid -> {
+                                    // Ahora agregamos el jugador al arreglo
+                                    db.collection("formaciones").document(idUsuario)
+                                            .update("jugadores", FieldValue.arrayUnion(jugador))
+                                            .addOnSuccessListener(aVoid1 -> {
+                                                Toast.makeText(holder.itemView.getContext(), "Jugador fichado con éxito", Toast.LENGTH_SHORT).show();
+                                                Log.d("JugadorAdapter", "Jugador añadido a nueva formacion.");
+                                            })
+                                            .addOnFailureListener(e -> {
+                                                Log.e("JugadorAdapter", "Error al agregar jugador al equipo en nueva formacion", e);
+                                            });
+                                })
+                                .addOnFailureListener(e -> {
+                                    Log.e("JugadorAdapter", "Error al crear documento de formaciones", e);
+                                });
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("JugadorAdapter", "Error al verificar documento de formaciones", e);
+                });
     }
 
 
@@ -141,7 +183,5 @@ public class JugadorAdapter extends RecyclerView.Adapter<JugadorAdapter.ViewHold
     public void setListaJugadores(List<Jugador> listaJugadores) {
         this.listaJugadores = listaJugadores;
     }
-
-
-
 }
+

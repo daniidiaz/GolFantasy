@@ -74,7 +74,8 @@ public class ControladorBBDD {
             temp.put("telefono", usuario.getTelefono());
             temp.put("correo", usuario.getCorreo());
             temp.put("puntuacion", usuario.getPuntuacion());
-           // temp.put("ligasCreadas", new ArrayList<>());
+            temp.put("presupuesto", 500000000); // Asignar el presupuesto inicial
+            // temp.put("ligasCreadas", new ArrayList<>());
            // temp.put("ligasUnidas", new ArrayList<>());
 
             db.collection("usuarios").add(temp)
@@ -93,6 +94,26 @@ public class ControladorBBDD {
 
         db.collection("equiposDeUsuario").add(equipoDeUsuario);
     }
+
+    public interface PresupuestoCallback {
+        void onSuccess(int presupuesto);
+        void onError(Exception e);
+    }
+
+    public void getPresupuestoDeUsuario(String usuarioId, PresupuestoCallback callback) {
+        db.collection("usuarios").document(usuarioId)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists() && documentSnapshot.contains("presupuesto")) {
+                        int presupuesto = documentSnapshot.getLong("presupuesto").intValue();
+                        callback.onSuccess(presupuesto);
+                    } else {
+                        callback.onError(new Exception("Usuario o campo 'presupuesto' no encontrado"));
+                    }
+                })
+                .addOnFailureListener(callback::onError);
+    }
+
 
     /*public interface CrearLigaCallback {
         void onSuccess(String idLiga);

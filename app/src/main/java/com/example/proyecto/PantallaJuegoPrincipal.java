@@ -2,10 +2,12 @@ package com.example.proyecto;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -29,6 +31,8 @@ public class PantallaJuegoPrincipal extends AppCompatActivity {
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle toggle;
     private String idUsuario; // Variable para almacenar el ID del usuario
+    private TextView presupuestoTextView;
+    private ControladorBBDD controladorBBDD;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +49,8 @@ public class PantallaJuegoPrincipal extends AppCompatActivity {
 
         // Recibir el ID del usuario desde el Intent
         idUsuario = getIntent().getStringExtra("usuarioId");
+        controladorBBDD = new ControladorBBDD();
+
 
         toolbarInicio = findViewById(R.id.toolbarInicio);
         setSupportActionBar(toolbarInicio);
@@ -54,7 +60,8 @@ public class PantallaJuegoPrincipal extends AppCompatActivity {
 
         drawerLayout = findViewById(R.id.drawer_layout);
 
-
+        presupuestoTextView = findViewById(R.id.presupuestoTextView);
+        mostrarPresupuesto(idUsuario);
 
         // Configura el ActionBarDrawerToggle
         toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbarInicio, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -102,5 +109,19 @@ public class PantallaJuegoPrincipal extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void mostrarPresupuesto(String usuarioId) {
+        controladorBBDD.getPresupuestoDeUsuario(usuarioId, new ControladorBBDD.PresupuestoCallback() {
+            @Override
+            public void onSuccess(int presupuesto) {
+                presupuestoTextView.setText(String.valueOf(presupuesto) + " €");
+            }
+
+            @Override
+            public void onError(Exception e) {
+                Log.e("MainActivity", "Error al obtener presupuesto: " + e.getMessage());
+            }
+        });
     }
 }

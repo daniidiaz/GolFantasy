@@ -38,6 +38,17 @@
                 android:background="?android:attr/selectableItemBackgroundBorderless"
                 android:src="@drawable/logo_xhdpi" />
 
+            <TextView
+                android:id="@+id/presupuestoTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:paddingEnd="16dp"
+                android:gravity="center_vertical"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:text="0" />
         </androidx.appcompat.widget.Toolbar>
 
         <!-- Contenedor Principal -->

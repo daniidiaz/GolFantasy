@@ -11,19 +11,20 @@
         android:layout_height="wrap_content"
         android:queryHint="Buscar jugadores..." />
 
-        <!-- LinearLayout para contener el RecyclerView -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+    <!-- LinearLayout para contener el RecyclerView -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="?attr/actionBarSize">
 
-            <!-- RecyclerView para la lista de jugadores -->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewJugadores"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="8dp"
-                tools:listitem="@layout/item_jugador_mercado" />
-        </LinearLayout>
+        <!-- RecyclerView para la lista de jugadores -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewJugadores"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="8dp"
+            tools:listitem="@layout/item_jugador_mercado" />
+    </LinearLayout>
 
 </FrameLayout>

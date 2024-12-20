@@ -90,5 +90,12 @@ public class Usuario {
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
+    public String getEquipoFavorito() {
+        return equipoFavorito;
+    }
+
+    public void setEquipoFavorito(String equipoFavorito) {
+        this.equipoFavorito = equipoFavorito;
+    }
 
 }

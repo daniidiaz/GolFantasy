@@ -61,21 +61,7 @@ public class PantallaJuegoPrincipal extends AppCompatActivity {
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-       // btDesplegableInicio.setOnClickListener(v -> drawerLayout.openDrawer(GravityCompat.START));
 
-      /*  btnCrearLiga.setOnClickListener(v -> {
-            Intent intent = new Intent(PantallaJuegoPrincipal.this, CreacionDeLigaFantasy.class);
-            intent.putExtra("usuarioId", idUsuario); // Pasar el ID del usuario
-            startActivity(intent);
-            drawerLayout.closeDrawer(GravityCompat.START);
-        });*/
-
-      /*  btnUnirseLiga.setOnClickListener(v -> {
-            Intent intent = new Intent(PantallaJuegoPrincipal.this, UnirseLiga.class);
-            intent.putExtra("usuarioId", idUsuario); // Pasar el ID del usuario
-            startActivity(intent);
-            drawerLayout.closeDrawer(GravityCompat.START);
-        });*/
 
         // Reemplazar el fragmento inicial con el ID del usuario
         remplazarFragment(new InicioFragment(), idUsuario);

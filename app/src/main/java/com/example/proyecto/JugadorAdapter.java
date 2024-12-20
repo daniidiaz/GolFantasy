@@ -59,9 +59,14 @@ public class JugadorAdapter extends RecyclerView.Adapter<JugadorAdapter.ViewHold
 
     public void filtrar(String texto) {
         listaFiltrada.clear();
-        if (texto.isEmpty()) {
+        if (texto.isEmpty() && listaJugadores.isEmpty()) {
+            // If search is empty and listaJugadores is empty, display nothing
+            return;
+        } else if (texto.isEmpty()) {
+            // If search is empty, display all players
             listaFiltrada.addAll(listaJugadores);
         } else {
+            // If search is not empty, filter players
             for (Jugador jugador : listaJugadores) {
                 if (jugador.getNombre().toLowerCase().contains(texto.toLowerCase())) {
                     listaFiltrada.add(jugador);
@@ -70,6 +75,7 @@ public class JugadorAdapter extends RecyclerView.Adapter<JugadorAdapter.ViewHold
         }
         notifyDataSetChanged();
     }
+
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView textViewNombre, textViewPuntuacion, textViewPrecio;
@@ -84,5 +90,13 @@ public class JugadorAdapter extends RecyclerView.Adapter<JugadorAdapter.ViewHold
             imageViewJugador = itemView.findViewById(R.id.imageViewJugador);
             buttonFichar = itemView.findViewById(R.id.buttonFichar);
         }
+    }
+
+    public List<Jugador> getListaJugadores() {
+        return listaJugadores;
+    }
+
+    public void setListaJugadores(List<Jugador> listaJugadores) {
+        this.listaJugadores = listaJugadores;
     }
 }

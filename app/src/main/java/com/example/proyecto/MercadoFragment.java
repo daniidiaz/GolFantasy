@@ -5,8 +5,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import androidx.appcompat.widget.SearchView;
+
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SearchView;
+
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,22 +30,21 @@ public class MercadoFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_mercado, container, false);
-
+        // Inicializar Firebase Firestore
+        db = FirebaseFirestore.getInstance();
         // Inicializar vistas
         recyclerViewJugadores = rootView.findViewById(R.id.recyclerViewJugadores);
         searchViewJugadores = rootView.findViewById(R.id.searchViewJugadores);
+        // Cargar jugadores de Firebase
+
 
         // Configurar RecyclerView
         recyclerViewJugadores.setLayoutManager(new LinearLayoutManager(getContext()));
         jugadorAdapter = new JugadorAdapter(listaJugadores);
         recyclerViewJugadores.setAdapter(jugadorAdapter);
 
-        // Inicializar Firebase Firestore
-        db = FirebaseFirestore.getInstance();
-
         // Cargar jugadores de Firebase
         cargarJugadoresDeFirebase();
-
         // Configurar búsqueda
         configurarBarraBusqueda();
 
@@ -58,10 +59,13 @@ public class MercadoFragment extends Fragment {
                     for (QueryDocumentSnapshot document : querySnapshot) {
                         Jugador jugador = document.toObject(Jugador.class);
                         jugador.setIdJugador(document.getId());
-                        jugador.setPuntuacion(calcularPuntuacion(jugador)); // Calcular la puntuación
+                        jugador.setPuntuacion(calcularPuntuacion(jugador));
                         listaJugadores.add(jugador);
                     }
-                    Log.d("MercadoFragment", "Número de jugadores obtenidos: " + listaJugadores.size()); // Añadir log
+                    Log.d("MercadoFragment", "Número de jugadores obtenidos: " + listaJugadores.size());
+
+                    // Trigger initial display of all players
+                    jugadorAdapter.filtrar("");
                     jugadorAdapter.notifyDataSetChanged();
                 })
                 .addOnFailureListener(e -> Log.e("MercadoFragment", "Error al cargar jugadores", e));

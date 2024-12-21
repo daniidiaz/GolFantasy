@@ -40,52 +40,57 @@ public class ControladorBBDD {
                 });
     }
 
+    // ... (código existente) ...
+
     public interface CrearUsuarioCallback {
-            void onSuccess();
-            void onUserExists();
-            void onError(Exception e);
-        }
+        void onSuccess(String usuarioId);
+        void onUserExists();
+        void onError(Exception e);
+    }
 
-        public void crearUsuarios(Usuario usuario, CrearUsuarioCallback callback) {
-            // Verificar si el usuario ya existe por correo electrónico
-            db.collection("usuarios")
-                    .whereEqualTo("correo", usuario.getCorreo())
-                    .get()
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            if (task.getResult().isEmpty()) {
-                                // El usuario no existe, crearlo
-                                crearNuevoUsuario(usuario, callback);
-                            } else {
-                                // El usuario ya existe
-                                callback.onUserExists();
-                            }
+    public void crearUsuarios(Usuario usuario, CrearUsuarioCallback callback) {
+        // Verificar si el usuario ya existe por correo electrónico
+        db.collection("usuarios")
+                .whereEqualTo("correo", usuario.getCorreo())
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        if (task.getResult().isEmpty()) {
+                            // El usuario no existe, crearlo
+                            crearNuevoUsuario(usuario, callback);
                         } else {
-                            // Error en la consulta
-                            callback.onError(task.getException());
+                            // El usuario ya existe
+                            callback.onUserExists();
                         }
-                    });
-        }
+                    } else {
+                        // Error en la consulta
+                        callback.onError(task.getException());
+                    }
+                });
+    }
 
+    public void crearNuevoUsuario(Usuario usuario, CrearUsuarioCallback callback) {
+        Map<String, Object> temp = new HashMap<>();
+        temp.put("nombreUsuario", usuario.getNombreUsuario());
+        temp.put("contrasenia", usuario.getContrasenia());
+        temp.put("telefono", usuario.getTelefono());
+        temp.put("correo", usuario.getCorreo());
+        temp.put("puntuacion", usuario.getPuntuacion());
+        temp.put("presupuesto", 500000000); // Asignar el presupuesto inicial
+        // temp.put("ligasCreadas", new ArrayList<>());
+        // temp.put("ligasUnidas", new ArrayList<>());
 
-        private void crearNuevoUsuario(Usuario usuario, CrearUsuarioCallback callback) {
-            Map<String, Object> temp = new HashMap<>();
-            temp.put("nombreUsuario", usuario.getNombreUsuario());
-            temp.put("contrasenia", usuario.getContrasenia());
-            temp.put("telefono", usuario.getTelefono());
-            temp.put("correo", usuario.getCorreo());
-            temp.put("puntuacion", usuario.getPuntuacion());
-            temp.put("presupuesto", 500000000); // Asignar el presupuesto inicial
-            // temp.put("ligasCreadas", new ArrayList<>());
-           // temp.put("ligasUnidas", new ArrayList<>());
+        db.collection("usuarios").add(temp)
+                .addOnSuccessListener(documentReference -> {
+                    String idUsuario = documentReference.getId(); // Obtener el ID del documento
+                    documentReference.update("idUsuario", idUsuario) // Actualizar el documento en Firestore
+                            .addOnSuccessListener(aVoid -> callback.onSuccess(idUsuario)) // Pasar el idUsuario al callback
+                            .addOnFailureListener(callback::onError);
+                })
+                .addOnFailureListener(callback::onError);
+    }
 
-            db.collection("usuarios").add(temp)
-                    .addOnSuccessListener(documentReference -> {
-                        documentReference.update("idUsuario", documentReference.getId());
-                        callback.onSuccess();
-                    })
-                    .addOnFailureListener(callback::onError);
-        }
+// ... (resto del código existente) ...
 
     private void crearEquipoDeUsuario(String idUsuario, String idLiga, String idEquipo) {
         Map<String, Object> equipoDeUsuario = new HashMap<>();
@@ -98,6 +103,7 @@ public class ControladorBBDD {
 
     public interface PresupuestoCallback {
         void onSuccess(int presupuesto);
+
         void onError(Exception e);
     }
 
@@ -117,6 +123,7 @@ public class ControladorBBDD {
 
     public interface PresupuestoActualizadoCallback {
         void onPresupuestoActualizado();
+
         void onError(Exception e);
     }
 

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -103,6 +104,15 @@ public class MercadoFragment extends Fragment {
         int partidosJugados = jugador.getPartidosJugados();
 
         return (partidosJugados * 1) + (goles * 4) + (asistencias * 3) - (amarillas * 1) - (rojas * 3);
+    }
+
+    public void mostrarDialogoConfirmacion(Jugador jugador, Runnable onConfirmar) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+        builder.setTitle("Confirmar fichaje");
+        builder.setMessage("¿Estás seguro de que quieres fichar a " + jugador.getNombre() + "?");
+        builder.setPositiveButton("Sí", (dialog, which) -> onConfirmar.run());
+        builder.setNegativeButton("No", null);
+        builder.show();
     }
 
 

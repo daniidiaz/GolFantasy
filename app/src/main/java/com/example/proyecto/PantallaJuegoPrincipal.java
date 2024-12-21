@@ -89,6 +89,14 @@ public class PantallaJuegoPrincipal extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (idUsuario != null) { // Verificar si idUsuario es nulo
+            mostrarPresupuesto(idUsuario);
+        }
+    }
+
     private void remplazarFragment(Fragment fragment, String idUsuario) {
         // Crear un Bundle con el ID del usuario
         Bundle bundle = new Bundle();

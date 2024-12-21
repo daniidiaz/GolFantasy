@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 /*Clase que representa a los usuarios de la aplicación.*/
 public class Usuario {
-    private int idUsuario;
+    private String idUsuario;
     private String nombreUsuario;
     private String contrasenia;
     private String correo;
@@ -28,11 +28,11 @@ public class Usuario {
        // this.ligasUnidas = new ArrayList<>();
     }
 
-    public int getIdUsuario() {
+    public String getIdUsuario() {
         return idUsuario;
     }
 
-    public void setIdUsuario(int idUsuario) {
+    public void setIdUsuario(String idUsuario) {
         this.idUsuario = idUsuario;
     }
 

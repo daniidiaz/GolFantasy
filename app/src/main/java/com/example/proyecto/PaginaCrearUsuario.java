@@ -107,17 +107,20 @@ public class PaginaCrearUsuario extends AppCompatActivity implements View.OnClic
 
         }
 
+    // ... (código existente) ...
+
     private void guardarDatosEnFirebase() {
         recogerDatos();
         Usuario usuario = new Usuario(nombreUsuario, contrasenia, email, telefono, equipoFavorito);
         db.crearUsuarios(usuario, new ControladorBBDD.CrearUsuarioCallback() {
             @Override
-            public void onSuccess() {
+            public void onSuccess(String usuarioId) {
                 // Usuario creado con éxito
                 // ... mostrar notificación de éxito ...
-                // Por ejemplo:
                 Toast.makeText(getApplicationContext(), "Usuario creado con éxito", Toast.LENGTH_SHORT).show();
+
                 Intent i = new Intent(getApplicationContext(), PantallaJuegoPrincipal.class);
+                i.putExtra("usuarioId", usuarioId); // Pasar el idUsuario como extra
                 startActivity(i);
             }
 
@@ -125,7 +128,6 @@ public class PaginaCrearUsuario extends AppCompatActivity implements View.OnClic
             public void onUserExists() {
                 // El usuario ya existe
                 // ... mostrar notificación de usuario existente ...
-                // Por ejemplo:
                 Toast.makeText(getApplicationContext(), "El usuario ya existe", Toast.LENGTH_SHORT).show();
             }
 
@@ -137,6 +139,8 @@ public class PaginaCrearUsuario extends AppCompatActivity implements View.OnClic
             }
         });
     }
+
+// ... (resto del código existente) ...
 
 
 

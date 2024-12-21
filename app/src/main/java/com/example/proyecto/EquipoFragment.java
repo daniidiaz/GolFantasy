@@ -42,6 +42,7 @@ public class EquipoFragment extends Fragment {
     private ImageView portero;
 
     private String idUsuario;
+    private EquipoFragment equipoFragment;
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -70,7 +71,7 @@ public class EquipoFragment extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
-            idUsuario = getArguments().getString("usuarioId");  // Asumiendo que el ID de usuario se pasa como 'userId'
+            idUsuario = getArguments().getString("usuarioId");  // Asumiendo que el ID de usuario se pasa como 'usuarioId'
         }
 
         if (idUsuario == null) {
@@ -140,18 +141,36 @@ public class EquipoFragment extends Fragment {
     private void agregarJugadorPorPosicion(Jugador jugador) {
         switch (jugador.getPosicion().name().toLowerCase()) {
             case "portero":
+                // Verificar si el portero ya ha sido fichado
+                if (portero != null && portero.getTag() != null && portero.getTag().equals(jugador.getIdJugador())) {
+                    return; // Salir del método si el portero ya ha sido fichado
+                }
+                // Cargar la imagen del portero si no ha sido fichado
                 Glide.with(this)
                         .load(jugador.getImagenUrl())
                         .placeholder(R.drawable.jugador) // Imagen por defecto
                         .into(portero);
+                portero.setTag(jugador.getIdJugador()); // Establecer el ID del jugador como tag del ImageView
                 break;
             case "defensa":
+                // Verificar si el defensa ya ha sido fichado
+                if (jugadoresDefensas.stream().anyMatch(j -> j.getIdJugador().equals(jugador.getIdJugador()))) {
+                    return; // Salir del método si el defensa ya ha sido fichado
+                }
                 jugadoresDefensas.add(jugador);
                 break;
             case "mediocentro":
+                // Verificar si el mediocentro ya ha sido fichado
+                if (jugadoresMediocentros.stream().anyMatch(j -> j.getIdJugador().equals(jugador.getIdJugador()))) {
+                    return; // Salir del método si el mediocentro ya ha sido fichado
+                }
                 jugadoresMediocentros.add(jugador);
                 break;
             case "delantero":
+                // Verificar si el delantero ya ha sido fichado
+                if (jugadoresDelanteros.stream().anyMatch(j -> j.getIdJugador().equals(jugador.getIdJugador()))) {
+                    return; // Salir del método si el delantero ya ha sido fichado
+                }
                 jugadoresDelanteros.add(jugador);
                 break;
             default:
@@ -267,6 +286,41 @@ public class EquipoFragment extends Fragment {
             jugadorView.setLayoutParams(params);
 
             linea.addView(jugadorView);
+        }
+    }
+
+    public boolean yaEstaFichado(Jugador jugador) {
+        switch (jugador.getPosicion().name().toLowerCase()) {
+            case "portero":
+                return portero != null && portero.getTag() != null && portero.getTag().equals(jugador.getIdJugador());
+            case "defensa":
+                return jugadoresDefensas.stream().anyMatch(j -> j.getIdJugador().equals(jugador.getIdJugador()));
+            case "mediocentro":
+                return jugadoresMediocentros.stream().anyMatch(j -> j.getIdJugador().equals(jugador.getIdJugador()));
+            case "delantero":
+                return jugadoresDelanteros.stream().anyMatch(j -> j.getIdJugador().equals(jugador.getIdJugador()));
+            default:
+                return false;
+        }
+    }
+
+    public void actualizarListasJugadores(Jugador jugador) {
+        switch (jugador.getPosicion().name().toLowerCase()) {
+            case "portero":
+                // ... (código para actualizar la lista de porteros) ...
+                break;
+            case "defensa":
+                jugadoresDefensas.add(jugador);
+                break;
+            case "mediocentro":
+                jugadoresMediocentros.add(jugador);
+                break;
+            case "delantero":
+                jugadoresDelanteros.add(jugador);
+                break;
+            default:
+                Log.e("Posición inválida", "Posición no reconocida: " + jugador.getPosicion());
+                break;
         }
     }
 

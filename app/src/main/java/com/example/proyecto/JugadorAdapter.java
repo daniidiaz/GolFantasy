@@ -55,45 +55,47 @@ public class JugadorAdapter extends RecyclerView.Adapter<JugadorAdapter.ViewHold
                 .into(holder.imageViewJugador);
 
         holder.buttonFichar.setOnClickListener(v -> {
-            // Acciones al pulsar el botón "Fichar"
-            int precioJugador = jugador.getPrecio();
-            ControladorBBDD controladorBBDD = new ControladorBBDD();
-            controladorBBDD.getPresupuestoDeUsuario(idUsuario, new ControladorBBDD.PresupuestoCallback() {
-                @Override
-                public void onSuccess(int presupuesto) {
-                    if (presupuesto >= precioJugador) {
-                        // Realizar la compra
-                        controladorBBDD.actualizarPresupuesto(idUsuario, presupuesto - precioJugador, new ControladorBBDD.PresupuestoActualizadoCallback() {
-                            @Override
-                            public void onPresupuestoActualizado() {
-                                // Actualizar el presupuesto en el Toolbar
-                                if (holder.itemView.getContext() instanceof PantallaJuegoPrincipal) {
-                                    ((PantallaJuegoPrincipal) holder.itemView.getContext()).actualizarPresupuestoEnToolbar(idUsuario);
+            // Mostrar el diálogo de confirmación
+            mercadoFragment.mostrarDialogoConfirmacion(jugador, () -> {
+                // Realizar el fichaje aquí si se confirma
+                int precioJugador = jugador.getPrecio();
+                ControladorBBDD controladorBBDD = new ControladorBBDD();
+                controladorBBDD.getPresupuestoDeUsuario(idUsuario, new ControladorBBDD.PresupuestoCallback() {
+                    @Override
+                    public void onSuccess(int presupuesto) {
+                        if (presupuesto >= precioJugador) {
+                            // Realizar la compra
+                            controladorBBDD.actualizarPresupuesto(idUsuario, presupuesto - precioJugador, new ControladorBBDD.PresupuestoActualizadoCallback() {
+                                @Override
+                                public void onPresupuestoActualizado() {
+                                    // Actualizar el presupuesto en el Toolbar
+                                    if (holder.itemView.getContext() instanceof PantallaJuegoPrincipal) {
+                                        ((PantallaJuegoPrincipal) holder.itemView.getContext()).actualizarPresupuestoEnToolbar(idUsuario);
+                                    }
+                                    // Mostrar mensaje de éxito
+                                    Toast.makeText(holder.itemView.getContext(), "Jugador fichado con éxito", Toast.LENGTH_SHORT).show();
+
+                                    agregarJugadorAlEquipo(jugador, idUsuario, holder);
                                 }
-                                // Mostrar mensaje de éxito
-                                Toast.makeText(holder.itemView.getContext(), "Jugador fichado con éxito", Toast.LENGTH_SHORT).show();
 
-                                agregarJugadorAlEquipo(jugador, idUsuario, holder);
-                            }
-                            @Override
-                            public void onError(Exception e) {
-                                Log.e("JugadorAdapter", "Error al actualizar presupuesto: " + e.getMessage());
-                            }
-                        });
-                    } else {
-                        // Mostrar mensaje de error
-                        Toast.makeText(holder.itemView.getContext(), "No tienes suficiente presupuesto", Toast.LENGTH_SHORT).show();
+                                @Override
+                                public void onError(Exception e) {
+                                    Log.e("JugadorAdapter", "Error al actualizar presupuesto: " + e.getMessage());
+                                }
+                            });
+                        } else {
+                            // Mostrar mensaje de error
+                            Toast.makeText(holder.itemView.getContext(), "No tienes suficiente presupuesto", Toast.LENGTH_SHORT).show();
+                        }
                     }
-                }
-                @Override
-                public void onError(Exception e) {
-                    Log.e("JugadorAdapter", "Error al obtener presupuesto: " + e.getMessage());
-                }
+
+                    @Override
+                    public void onError(Exception e) {
+                        Log.e("JugadorAdapter", "Error al obtener presupuesto: " + e.getMessage());
+                    }
+                });
             });
-
         });
-
-
     }
 
     @Override

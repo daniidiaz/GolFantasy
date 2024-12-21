@@ -15,7 +15,6 @@ public class Jugador {
     private DocumentReference equipo; // Equipo al que pertenece
     private int edad; // Edad del jugador
     private String nacionalidad; // Nacionalidad del jugador
-    private double mediaPuntuacion; // Media de puntuación en la temporada
     private String imagenUrl; // URL de la imagen del jugador
     private int partidosJugados;
     private int goles;
@@ -28,7 +27,7 @@ public class Jugador {
     }
 
     // Constructor con parámetros
-    public Jugador(String idJugador, String nombre, int puntuacion, int precio, DisponibilidadJugador disponibilidad, Posicion posicion, DocumentReference  equipo, int edad, String nacionalidad, double mediaPuntuacion, String imagenUrl, int partidosJugados, int goles, int asistencias, int tarjetasAmarillas, int tarjetasRojas) {
+    public Jugador(String idJugador, String nombre, int puntuacion, int precio, DisponibilidadJugador disponibilidad, Posicion posicion, DocumentReference  equipo, int edad, String nacionalidad, String imagenUrl, int partidosJugados, int goles, int asistencias, int tarjetasAmarillas, int tarjetasRojas) {
         this.idJugador = idJugador;
         this.nombre = nombre;
         this.puntuacion = puntuacion;
@@ -38,7 +37,6 @@ public class Jugador {
         this.equipo = equipo;
         this.edad = edad;
         this.nacionalidad = nacionalidad;
-        this.mediaPuntuacion = mediaPuntuacion;
         this.imagenUrl = imagenUrl;
         this.partidosJugados = partidosJugados;
         this.goles = goles;
@@ -119,14 +117,6 @@ public class Jugador {
 
     public void setNacionalidad(String nacionalidad) {
         this.nacionalidad = nacionalidad;
-    }
-
-    public double getMediaPuntuacion() {
-        return mediaPuntuacion;
-    }
-
-    public void setMediaPuntuacion(double mediaPuntuacion) {
-        this.mediaPuntuacion = mediaPuntuacion;
     }
 
     public String getImagenUrl() {

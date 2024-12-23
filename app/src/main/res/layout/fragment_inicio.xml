@@ -22,7 +22,7 @@
         android:id="@+id/tvLigasCreadas"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Cargando ligas..."
+        android:text="Últimos fichajes:"
         android:textSize="18sp"
         android:textColor="@color/negro"
         android:layout_marginBottom="8dp" />

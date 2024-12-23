@@ -19,7 +19,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MercadoFragment extends Fragment {
 
@@ -115,5 +117,24 @@ public class MercadoFragment extends Fragment {
         builder.show();
     }
 
+
+    public void registrarFichaje(Jugador jugador) {
+        // Crear un mapa con los datos del fichaje
+        Map<String, Object> fichaje = new HashMap<>();
+        fichaje.put("idUsuario", idUsuario);
+        fichaje.put("idJugador", jugador.getIdJugador());
+        fichaje.put("nombreJugador", jugador.getNombre());
+        fichaje.put("fecha", FieldValue.serverTimestamp());
+
+        // Guardar en Firebase
+        db.collection("fichajes")
+                .add(fichaje)
+                .addOnSuccessListener(documentReference -> {
+                    //Toast.makeText(getContext(), "¡Has fichado a " + jugador.getNombre() + "!", Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(getContext(), "Error al fichar jugador: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+    }
 
 }

@@ -57,6 +57,8 @@ public class JugadorAdapter extends RecyclerView.Adapter<JugadorAdapter.ViewHold
         holder.buttonFichar.setOnClickListener(v -> {
             // Mostrar el diálogo de confirmación
             mercadoFragment.mostrarDialogoConfirmacion(jugador, () -> {
+                mercadoFragment.registrarFichaje(jugador);
+
                 // Realizar el fichaje aquí si se confirma
                 int precioJugador = jugador.getPrecio();
                 ControladorBBDD controladorBBDD = new ControladorBBDD();

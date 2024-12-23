@@ -23,6 +23,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.proyecto.databinding.ActivityPantallaJuegoPrincipalBinding;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class PantallaJuegoPrincipal extends AppCompatActivity {
 
@@ -33,6 +34,10 @@ public class PantallaJuegoPrincipal extends AppCompatActivity {
     private String idUsuario; // Variable para almacenar el ID del usuario
     private TextView presupuestoTextView;
     private ControladorBBDD controladorBBDD;
+    private TextView tvNombreUsuario;
+    private TextView tvCorreoElectronico;
+    private TextView tvPuntuacion;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +55,9 @@ public class PantallaJuegoPrincipal extends AppCompatActivity {
         // Recibir el ID del usuario desde el Intent
         idUsuario = getIntent().getStringExtra("usuarioId");
         controladorBBDD = new ControladorBBDD();
-
+        tvNombreUsuario = findViewById(R.id.tvNombreUsuario);
+        tvCorreoElectronico = findViewById(R.id.tvCorreoElectronico);
+        tvPuntuacion = findViewById(R.id.tvPuntuacion);
 
         toolbarInicio = findViewById(R.id.toolbarInicio);
         setSupportActionBar(toolbarInicio);
@@ -67,7 +74,6 @@ public class PantallaJuegoPrincipal extends AppCompatActivity {
         toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbarInicio, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-
 
 
         // Reemplazar el fragmento inicial con el ID del usuario
@@ -95,6 +101,22 @@ public class PantallaJuegoPrincipal extends AppCompatActivity {
         if (idUsuario != null) { // Verificar si idUsuario es nulo
             mostrarPresupuesto(idUsuario);
         }
+
+        obtenerUsuarioPorId(idUsuario, new UsuarioCallback() {
+            @Override
+            public void onSuccess(Usuario usuario) {
+                tvNombreUsuario.setText(usuario.getNombreUsuario());
+                tvCorreoElectronico.setText(usuario.getCorreo());
+                tvPuntuacion.setText("Puntuación: " + usuario.getPuntuacion());
+                Log.d("Usuario", "Nombre: " + usuario.getNombreUsuario());
+            }
+
+            @Override
+            public void onError(Exception e) {
+                // Manejar el error
+                Log.e("Usuario", "Error al obtener usuario: " + e.getMessage());
+            }
+        });
     }
 
     private void remplazarFragment(Fragment fragment, String idUsuario) {
@@ -134,6 +156,29 @@ public class PantallaJuegoPrincipal extends AppCompatActivity {
     }
     public void actualizarPresupuestoEnToolbar(String usuarioId) {
         mostrarPresupuesto(usuarioId);
+    }
+
+    public void obtenerUsuarioPorId(String idUsuario, UsuarioCallback callback) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("usuarios").document(idUsuario)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        Usuario usuario = documentSnapshot.toObject(Usuario.class);
+                        callback.onSuccess(usuario);
+                    } else {
+                        callback.onError(new Exception("Usuario no encontrado"));
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    callback.onError(e);
+                });
+    }
+
+    // Interfaz para el callback
+    public interface UsuarioCallback {
+        void onSuccess(Usuario usuario);
+        void onError(Exception e);
     }
 
 

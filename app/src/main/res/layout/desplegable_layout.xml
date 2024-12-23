@@ -43,16 +43,7 @@
         android:textColor="@color/blanco"
         android:textSize="16sp" />
 
-    <!-- Equipo del usuario -->
-    <TextView
-        android:id="@+id/tvEquipo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="4dp"
-        android:text="Equipo: -"
-        android:textColor="@color/blanco"
-        android:textSize="16sp" />
+
 
 
 </LinearLayout>

@@ -27,6 +27,9 @@ public class Usuario {
       //  this.ligasCreadas = new ArrayList<>();
        // this.ligasUnidas = new ArrayList<>();
     }
+    public Usuario() {
+        // Constructor vacío requerido por Firebase
+    }
 
     public String getIdUsuario() {
         return idUsuario;

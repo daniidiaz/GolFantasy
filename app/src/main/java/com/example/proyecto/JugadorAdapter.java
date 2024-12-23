@@ -20,6 +20,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
 public class JugadorAdapter extends RecyclerView.Adapter<JugadorAdapter.ViewHolder> {
 
     private List<Jugador> listaJugadores;
@@ -55,48 +57,118 @@ public class JugadorAdapter extends RecyclerView.Adapter<JugadorAdapter.ViewHold
                 .into(holder.imageViewJugador);
 
         holder.buttonFichar.setOnClickListener(v -> {
-            // Mostrar el diálogo de confirmación
-            mercadoFragment.mostrarDialogoConfirmacion(jugador, () -> {
-                mercadoFragment.registrarFichaje(jugador);
-
-                // Realizar el fichaje aquí si se confirma
-                int precioJugador = jugador.getPrecio();
-                ControladorBBDD controladorBBDD = new ControladorBBDD();
-                controladorBBDD.getPresupuestoDeUsuario(idUsuario, new ControladorBBDD.PresupuestoCallback() {
-                    @Override
-                    public void onSuccess(int presupuesto) {
-                        if (presupuesto >= precioJugador) {
-                            // Realizar la compra
-                            controladorBBDD.actualizarPresupuesto(idUsuario, presupuesto - precioJugador, new ControladorBBDD.PresupuestoActualizadoCallback() {
-                                @Override
-                                public void onPresupuestoActualizado() {
-                                    // Actualizar el presupuesto en el Toolbar
-                                    if (holder.itemView.getContext() instanceof PantallaJuegoPrincipal) {
-                                        ((PantallaJuegoPrincipal) holder.itemView.getContext()).actualizarPresupuestoEnToolbar(idUsuario);
+            // Verificar si el jugador ya está fichado
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            db.collection("formaciones").document(idUsuario)
+                    .get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        if (documentSnapshot.exists()) {
+                            List<Map<String, Object>> jugadoresArray = (List<Map<String, Object>>) documentSnapshot.get("jugadores");
+                            boolean jugadorRepetido = false;
+                            if (jugadoresArray != null) {
+                                for (Map<String, Object> jugadorData : jugadoresArray) {
+                                    if (jugadorData.get("idJugador").equals(jugador.getIdJugador())) {
+                                        jugadorRepetido = true;
+                                        break;
                                     }
-                                    // Mostrar mensaje de éxito
-                                    Toast.makeText(holder.itemView.getContext(), "Jugador fichado con éxito", Toast.LENGTH_SHORT).show();
-
-                                    agregarJugadorAlEquipo(jugador, idUsuario, holder);
                                 }
+                            }
 
-                                @Override
-                                public void onError(Exception e) {
-                                    Log.e("JugadorAdapter", "Error al actualizar presupuesto: " + e.getMessage());
-                                }
-                            });
+                            if (jugadorRepetido) {
+                                // Si el jugador está repetido, mostrar un Toast y no realizar ninguna acción
+                                Toast.makeText(holder.itemView.getContext(), "Este jugador ya está fichado", Toast.LENGTH_SHORT).show();
+                            } else {
+                                // Si el jugador no está repetido, mostrar el diálogo de confirmación
+                                mercadoFragment.mostrarDialogoConfirmacion(jugador, () -> {
+                                    mercadoFragment.registrarFichaje(jugador);
+
+                                    // Realizar el fichaje aquí si se confirma
+                                    int precioJugador = jugador.getPrecio();
+                                    ControladorBBDD controladorBBDD = new ControladorBBDD();
+                                    controladorBBDD.getPresupuestoDeUsuario(idUsuario, new ControladorBBDD.PresupuestoCallback() {
+                                        @Override
+                                        public void onSuccess(int presupuesto) {
+                                            if (presupuesto >= precioJugador) {
+                                                // Realizar la compra
+                                                controladorBBDD.actualizarPresupuesto(idUsuario, presupuesto - precioJugador, new ControladorBBDD.PresupuestoActualizadoCallback() {
+                                                    @Override
+                                                    public void onPresupuestoActualizado() {
+                                                        // Actualizar el presupuesto en el Toolbar
+                                                        if (holder.itemView.getContext() instanceof PantallaJuegoPrincipal) {
+                                                            ((PantallaJuegoPrincipal) holder.itemView.getContext()).actualizarPresupuestoEnToolbar(idUsuario);
+                                                        }
+                                                        // Mostrar mensaje de éxito
+                                                        Toast.makeText(holder.itemView.getContext(), "Jugador fichado con éxito", Toast.LENGTH_SHORT).show();
+
+                                                        agregarJugadorAlEquipo(jugador, idUsuario, holder);
+                                                    }
+
+                                                    @Override
+                                                    public void onError(Exception e) {
+                                                        Log.e("JugadorAdapter", "Error al actualizar presupuesto: " + e.getMessage());
+                                                    }
+                                                });
+                                            } else {
+                                                // Mostrar mensaje de error
+                                                Toast.makeText(holder.itemView.getContext(), "No tienes suficiente presupuesto", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onError(Exception e) {
+                                            Log.e("JugadorAdapter", "Error al obtener presupuesto: " + e.getMessage());
+                                        }
+                                    });
+                                });
+                            }
                         } else {
-                            // Mostrar mensaje de error
-                            Toast.makeText(holder.itemView.getContext(), "No tienes suficiente presupuesto", Toast.LENGTH_SHORT).show();
-                        }
-                    }
+                            // Si el documento no existe, mostrar el diálogo de confirmación (el jugador no está fichado)
+                            mercadoFragment.mostrarDialogoConfirmacion(jugador, () -> {
+                                mercadoFragment.registrarFichaje(jugador);
 
-                    @Override
-                    public void onError(Exception e) {
-                        Log.e("JugadorAdapter", "Error al obtener presupuesto: " + e.getMessage());
-                    }
-                });
-            });
+                                // Realizar el fichaje aquí si se confirma
+                                int precioJugador = jugador.getPrecio();
+                                ControladorBBDD controladorBBDD = new ControladorBBDD();
+                                controladorBBDD.getPresupuestoDeUsuario(idUsuario, new ControladorBBDD.PresupuestoCallback() {
+                                    @Override
+                                    public void onSuccess(int presupuesto) {
+                                        if (presupuesto >= precioJugador) {
+                                            // Realizar la compra
+                                            controladorBBDD.actualizarPresupuesto(idUsuario, presupuesto - precioJugador, new ControladorBBDD.PresupuestoActualizadoCallback() {
+                                                @Override
+                                                public void onPresupuestoActualizado() {
+                                                    // Actualizar el presupuesto en el Toolbar
+                                                    if (holder.itemView.getContext() instanceof PantallaJuegoPrincipal) {
+                                                        ((PantallaJuegoPrincipal) holder.itemView.getContext()).actualizarPresupuestoEnToolbar(idUsuario);
+                                                    }
+                                                    // Mostrar mensaje de éxito
+                                                    Toast.makeText(holder.itemView.getContext(), "Jugador fichado con éxito", Toast.LENGTH_SHORT).show();
+
+                                                    agregarJugadorAlEquipo(jugador, idUsuario, holder);
+                                                }
+
+                                                @Override
+                                                public void onError(Exception e) {
+                                                    Log.e("JugadorAdapter", "Error al actualizar presupuesto: " + e.getMessage());
+                                                }
+                                            });
+                                        } else {
+                                            // Mostrar mensaje de error
+                                            Toast.makeText(holder.itemView.getContext(), "No tienes suficiente presupuesto", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onError(Exception e) {
+                                        Log.e("JugadorAdapter", "Error al obtener presupuesto: " + e.getMessage());
+                                    }
+                                });
+                            });
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        Log.e("JugadorAdapter", "Error al verificar si el jugador está fichado", e);
+                    });
         });
     }
 

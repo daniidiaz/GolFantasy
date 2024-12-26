@@ -74,7 +74,7 @@ public class InicioFragment extends Fragment {
 
         // Inicializar vistas
      //   btnCrearLiga = view.findViewById(R.id.btnCrearLiga);
-        tvLigasCreadas = view.findViewById(R.id.tvLigasCreadas);
+       // tvLigasCreadas = view.findViewById(R.id.tvLigasCreadas);
         tvProximasJornadas = view.findViewById(R.id.tvProximasJornadas);
         llListaLigas = view.findViewById(R.id.llListaLigas);
         llListaJornadas = view.findViewById(R.id.llListaJornadas); // Nuevo LinearLayout para jornadas

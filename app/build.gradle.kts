@@ -53,6 +53,7 @@ dependencies {
     implementation(libs.contentpager)
     implementation(libs.media3.common)
     implementation(libs.foundation.android)
+    implementation(libs.leanback)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

@@ -13,6 +13,7 @@ impress = "0.0.1"
 contentpager = "1.0.0"
 media3Common = "1.5.0"
 foundationAndroid = "1.7.6"
+leanback = "1.0.0"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -28,6 +29,7 @@ impress = { group = "com.google.ar", name = "impress", version.ref = "impress" }
 contentpager = { group = "androidx.contentpager", name = "contentpager", version.ref = "contentpager" }
 media3-common = { group = "androidx.media3", name = "media3-common", version.ref = "media3Common" }
 foundation-android = { group = "androidx.compose.foundation", name = "foundation-android", version.ref = "foundationAndroid" }
+leanback = { group = "androidx.leanback", name = "leanback", version.ref = "leanback" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

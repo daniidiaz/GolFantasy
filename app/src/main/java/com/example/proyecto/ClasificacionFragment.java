@@ -1,10 +1,12 @@
 package com.example.proyecto;
 
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -38,7 +40,7 @@ public class ClasificacionFragment extends Fragment {
     }
 
     private void cargarClasificacion() {
-        db.collection("usuarios") // Reemplaza "usuarios" con el nombre de tu colección
+        db.collection("usuarios")
                 .orderBy("puntuacion", Query.Direction.DESCENDING)
                 .get()
                 .addOnCompleteListener(task -> {
@@ -48,24 +50,25 @@ public class ClasificacionFragment extends Fragment {
                             String nombreUsuario = document.getString("nombreUsuario");
                             long puntuacion = document.getLong("puntuacion");
 
-                            TableRow tableRow = new TableRow(requireContext());
-                            tableRow.addView(createTextView(posicion + "º"));
-                            tableRow.addView(createTextView(nombreUsuario));
-                            tableRow.addView(createTextView(String.valueOf(puntuacion)));
-                            tableLayout.addView(tableRow);
+                            // Inflar el layout de la fila
+                            TableRow tableRow = (TableRow) getLayoutInflater().inflate(R.layout.tr_clasificacion, tableLayout, false);
 
+                            // Obtener referencias a los TextViews de la fila
+                            TextView tvPosicion = tableRow.findViewById(R.id.tvPosicion);
+                            TextView tvNombreUsuario = tableRow.findViewById(R.id.tvNombreUsuario);
+                            TextView tvPuntuacion = tableRow.findViewById(R.id.tvPuntuacion);
+
+                            // Configurar el texto de los TextViews
+                            tvPosicion.setText(posicion + "º");
+                            tvNombreUsuario.setText(nombreUsuario);
+                            tvPuntuacion.setText(String.valueOf(puntuacion));
+
+                            tableLayout.addView(tableRow);
                             posicion++;
                         }
                     } else {
                         Log.w(TAG, "Error getting documents.", task.getException());
                     }
                 });
-    }
-
-    private TextView createTextView(String text) {
-        TextView textView = new TextView(requireContext());
-        textView.setText(text);
-        textView.setPadding(16, 16, 16, 16);
-        return textView;
     }
 }

@@ -2,30 +2,30 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/blanco"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:background="@color/blanco">
+    android:padding="16dp">
 
     <!-- Botón para crear una nueva liga -->
     <Button
         android:id="@+id/btnCrearLiga"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Crear Liga"
-        android:textColor="@color/blanco"
+        android:layout_marginBottom="16dp"
         android:background="@color/verde_sec"
         android:padding="12dp"
-        android:layout_marginBottom="16dp" />
+        android:text="Crear Liga"
+        android:textColor="@color/blanco" />
 
     <!-- Texto informativo sobre las ligas -->
     <TextView
         android:id="@+id/tvLigasCreadas"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:text="Últimos fichajes:"
-        android:textSize="18sp"
         android:textColor="@color/negro"
-        android:layout_marginBottom="8dp" />
+        android:textSize="18sp" />
 
     <!-- Scroll de las ligas -->
     <ScrollView
@@ -47,11 +47,11 @@
         android:id="@+id/tvProximasJornadas"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Próximas jornadas"
-        android:textSize="18sp"
-        android:textColor="@color/negro"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp" />
+        android:layout_marginBottom="8dp"
+        android:text="Próximas jornadas"
+        android:textColor="@color/negro"
+        android:textSize="18sp" />
 
     <!-- Scroll de las jornadas -->
     <ScrollView

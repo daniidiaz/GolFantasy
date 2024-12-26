@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#000000"
     tools:context=".ClasificacionFragment">
 
     <ScrollView
@@ -13,8 +14,48 @@
             android:id="@+id/tableLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:stretchColumns="*"
-            android:showDividers="middle|beginning|end">
+            android:background="#1C1C1C"
+            android:padding="16dp"
+            android:showDividers="middle|beginning|end"
+            android:stretchColumns="*">
+
+            <!-- Header row (without button) -->
+            <TableRow
+                android:id="@+id/trClasificacion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:stretchColumns="*"
+                android:weightSum="4">
+
+                <TextView
+                    android:id="@+id/tvPosicion"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Posición"
+                    android:textColor="@color/blanco"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvNombreUsuario"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Nombre"
+                    android:textColor="@color/blanco"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvPuntuacion"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Puntos"
+                    android:textColor="@color/blanco"
+                    android:textStyle="bold" />
+
+            </TableRow>
 
         </TableLayout>
 

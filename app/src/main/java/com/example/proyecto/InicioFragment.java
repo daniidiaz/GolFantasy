@@ -33,7 +33,7 @@ import java.util.Map;
 
 public class InicioFragment extends Fragment {
 
-    private Button btnCrearLiga;
+   // private Button btnCrearLiga;
     private TextView tvLigasCreadas, tvProximasJornadas;
     private LinearLayout llListaLigas, llListaJornadas;
 
@@ -73,17 +73,17 @@ public class InicioFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_inicio, container, false);
 
         // Inicializar vistas
-        btnCrearLiga = view.findViewById(R.id.btnCrearLiga);
+     //   btnCrearLiga = view.findViewById(R.id.btnCrearLiga);
         tvLigasCreadas = view.findViewById(R.id.tvLigasCreadas);
         tvProximasJornadas = view.findViewById(R.id.tvProximasJornadas);
         llListaLigas = view.findViewById(R.id.llListaLigas);
         llListaJornadas = view.findViewById(R.id.llListaJornadas); // Nuevo LinearLayout para jornadas
 
-        btnCrearLiga.setOnClickListener(v -> {
+      /*  btnCrearLiga.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), CreacionDeLigaFantasy.class);
             intent.putExtra("usuarioId", idUsuario);
             startActivity(intent);
-        });
+        });*/
 
         // Cargar datos
         cargarFichajes();

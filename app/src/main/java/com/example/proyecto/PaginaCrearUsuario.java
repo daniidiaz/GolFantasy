@@ -23,7 +23,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class PaginaCrearUsuario extends AppCompatActivity implements View.OnClickListener {
     private Spinner spinnerEquipos;
-    private EditText editTextContrasenia;
+    private EditText etContrasenia;
     private ImageButton btnVerContrasenia;
     private boolean isPasswordVisible = false;
     private Toolbar toolbar;
@@ -31,7 +31,6 @@ public class PaginaCrearUsuario extends AppCompatActivity implements View.OnClic
     EditText etNombreUsuario;
     EditText etEmail;
     EditText etTelefono;
-    EditText etContrasenia;
     String nombreUsuario;
     String contrasenia;
     String email;
@@ -126,23 +125,17 @@ public class PaginaCrearUsuario extends AppCompatActivity implements View.OnClic
 
             @Override
             public void onUserExists() {
-                // El usuario ya existe
                 // ... mostrar notificación de usuario existente ...
                 Toast.makeText(getApplicationContext(), "El usuario ya existe", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onError(Exception e) {
-                // Error al crear el usuario
                 // ... mostrar notificación de error ...
                 Toast.makeText(getApplicationContext(), "Error al crear el usuario: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
-
-// ... (resto del código existente) ...
-
-
 
     @Override
     public void onClick(View view) {
@@ -150,16 +143,16 @@ public class PaginaCrearUsuario extends AppCompatActivity implements View.OnClic
         if (view.getId()==R.id.btnVerContrasenia){
             if (isPasswordVisible) {
                 // Cambiar a contraseña oculta
-                editTextContrasenia.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                etContrasenia.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                 btnVerContrasenia.setImageResource(R.drawable.baseline_visibility_off_24); // Cambia a ojo cerrado
             } else {
                 // Cambiar a contraseña visible
-                editTextContrasenia.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                etContrasenia.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
                 btnVerContrasenia.setImageResource(R.drawable.baseline_remove_red_eye_24); // Cambia a ojo abierto
             }
             isPasswordVisible = !isPasswordVisible; // Alternar el estado
             // Mover el cursor al final del texto
-            editTextContrasenia.setSelection(editTextContrasenia.getText().length());
+            etContrasenia.setSelection(etContrasenia.getText().length());
         } else if (view.getId()==R.id.btnCrearCuenta) {
             guardarDatosEnFirebase();
         }

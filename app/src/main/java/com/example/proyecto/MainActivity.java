@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Inicializar Firestore
         db = FirebaseFirestore.getInstance();
 
+        ProgramarVaciado.programarVaciadoJugadores(this);
         // Referencias a los campos de la interfaz
         etUsuario = findViewById(R.id.etUsuario);
         etContrasenia = findViewById(R.id.etContraseña);

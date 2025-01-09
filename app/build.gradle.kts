@@ -72,5 +72,6 @@ dependencies {
     implementation("com.google.firebase:firebase-storage")
     implementation("com.google.android.material:material:1.13.0-alpha07")
     implementation("androidx.drawerlayout:drawerlayout:1.2.0")
+    implementation("androidx.work:work-runtime:2.10.0")
 
 }
